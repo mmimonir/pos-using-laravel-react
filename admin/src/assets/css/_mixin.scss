@@ -6,3 +6,9 @@
   font-size: 16px;
   font-weight: 700;
 }
+@mixin center{
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
