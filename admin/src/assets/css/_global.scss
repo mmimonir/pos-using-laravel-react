@@ -1,0 +1,47 @@
+body {
+  // font-family: Ubuntu, serif;
+  overflow-x: hidden;
+}
+.bg-theme{
+  background-image: linear-gradient(90deg, $theme-color, $theme-color-light, $theme-color);
+}
+.text-silver{
+  color: $silver;
+}
+.bg-theme-basic{
+  background: $theme-color;
+}
+.text-theme-light{
+  color: $theme-color-light;
+}
+.nav-link{
+  color:white;
+  &:hover{
+    color: $silver;
+  }
+  &:focus{
+    color: $silver;
+  }
+}
+.sb-sidenav-menu-heading{
+  color: $theme-color-light;
+}
+a {
+  text-decoration: none;
+}
+p, h1, h2, h3, h4, h5, h6, address, ul {
+ margin: 0;
+ padding: 0;
+}
+.text-justify {
+  text-align: justify;
+}
+.zoom-able {
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+.aspect-two {
+  aspect-ratio: 1/1.25 !important;
+}

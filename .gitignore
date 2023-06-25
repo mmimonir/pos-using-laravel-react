@@ -1,0 +1,4 @@
+/admin/node_modules
+/api/node_modules
+/api/vendor
+/api/.env

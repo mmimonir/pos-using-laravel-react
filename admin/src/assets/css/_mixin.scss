@@ -1,0 +1,8 @@
+@mixin transition {
+  transition: all 0.3s ease-in-out;
+}
+@mixin bold-text {
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+}
