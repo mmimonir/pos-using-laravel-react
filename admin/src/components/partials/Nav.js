@@ -1,15 +1,50 @@
 import $ from "jquery";
 import React from "react";
 import logo from "./../../assets/images/logo.png";
+import Swal from "sweetalert2";
+
+import Constants from "../../Constants";
+import GlobalFunction from "../../GlobalFunction";
+import { axiosInstance } from "../../AxiosInterceptor";
 
 const Nav = () => {
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logout",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Logout!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosInstance
+          .post(`${Constants.BASE_URL}/logout`)
+          .then((res) => {
+            console.log(res.data);
+            GlobalFunction.logout();
+            window.location.reload();
+          })
+          .catch((errors) => {
+            GlobalFunction.logout();
+          });
+      }
+    });
+  };
   const handleSidebar = () => {
     $("body").toggleClass("sb-sidenav-toggled");
   };
   return (
     <nav className="sb-topnav navbar navbar-expand navbar-dark bg-theme">
       <a className="navbar-brand ps-3" href="index.html">
-        <img src={logo} alt="logo" className="img-thumbnail" width={40} height={40}/>
+        <img
+          src={logo}
+          alt="logo"
+          className="img-thumbnail"
+          width={40}
+          height={40}
+        />
       </a>
 
       <button
@@ -19,9 +54,9 @@ const Nav = () => {
         href="#!"
       >
         <i className="fas fa-bars"></i>
-      </button>      
+      </button>
       <ul className="navbar-nav align-items-center ms-auto me-3 me-lg-4">
-        <p className="text-white">Admin</p>
+        <p className="text-white">{localStorage.name && localStorage.name}</p>
         <li className="nav-item dropdown">
           <a
             className="nav-link dropdown-toggle"
@@ -51,9 +86,9 @@ const Nav = () => {
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <a className="dropdown-item" href="#!">
+              <button onClick={handleLogout} className="dropdown-item">
                 Logout
-              </a>
+              </button>
             </li>
           </ul>
         </li>

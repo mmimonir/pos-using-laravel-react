@@ -12,7 +12,14 @@
         box-shadow: 0 0 10px rgba(0,0,0,0.3);
         label, h4{
             color: $white;
+            position: relative;
+            .login-error-msg{
+                position: absolute;
+                color: red;
+                text-shadow: 0 0 8px $white;
+            }
         }
+        
         
     }
 }

@@ -155,7 +155,7 @@ const SideBar = () => {
         </div>
         <div className="sb-sidenav-footer bg-theme text-silver">
           <div className="small">Logged in as:</div>
-          Start Bootstrap
+          {localStorage.name && localStorage.name}
         </div>
       </nav>
     </div>

@@ -5,15 +5,25 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./assets/css/style.scss";
 import { RouterProvider } from "react-router-dom";
 import ProjectRouter from "./components/router/ProjectRouter";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PublicRouter from "./components/router/PublicRouter";
+import axios from "axios";
 
 function App() {
   const [auth, setAuth] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token !== null) {
+      setAuth(true);
+    }
+  }, []);
   return (
     <>
-      {auth && <RouterProvider router={ProjectRouter} />}
-      {!auth && <RouterProvider router={PublicRouter} />}
+      {auth ? (
+        <RouterProvider router={ProjectRouter} />
+      ) : (
+        <RouterProvider router={PublicRouter} />
+      )}
     </>
   );
 }

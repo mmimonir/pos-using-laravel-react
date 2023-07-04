@@ -1,19 +1,45 @@
 import React, { useState } from "react";
-import axios from "axios";
+
+import ErrorMsg from "../../utils/ErrorMsg";
+import Spinner from "../../utils/Spinner";
+import Constants from "../../../Constants";
+import { axiosInstance } from "../../../AxiosInterceptor";
 
 const Login = () => {
   const [input, setInput] = useState({});
+  const [errors, setErrors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleInput = (e) => {
     setInput((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    setErrors([]);
   };
   const handleLogin = () => {
-    axios.post("http://localhost:8001/api/login", input).then((res) => {
-      console.log(res.data);
-    });
+    setIsLoading(true);
+    axiosInstance
+      .post(`${Constants.BASE_URL}/login`, input)
+      .then((res) => {
+        // console.log(res.data);
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("email", res.data.email);
+        localStorage.setItem("name", res.data.name);
+        localStorage.setItem("photo", res.data.photo);
+        localStorage.setItem("phone", res.data.phone);
+        setIsLoading(false);
+        window.location.reload();
+      })
+      .catch((errors) => {
+        setIsLoading(false);
+        if (errors.response.status === 422) {
+          setErrors(errors.response.data.errors);
+          // console.log(errors);
+        }
+      });
   };
+
   return (
     <div className="container-fluid bg-theme" id={"login"}>
       <div className="row">
@@ -26,31 +52,40 @@ const Login = () => {
               <label className={"w-100"}>
                 <p>Email/Phone</p>
                 <input
-                  className="form-control mt-2"
+                  className={
+                    `form-control mt-2` + (errors.email && " is-invalid")
+                  }
                   type={"text"}
                   name={"email"}
                   value={input.email}
                   onChange={handleInput}
                 />
+                {errors.email && <ErrorMsg errorMsg={errors.email[0]} />}
               </label>
               <label className={"w-100 mt-4"}>
                 <p>Password</p>
                 <input
-                  className="form-control mt-2"
+                  className={
+                    `form-control mt-2` + (errors.password && " is-invalid")
+                  }
                   type={"password"}
                   name={"password"}
                   value={input.password}
                   onChange={handleInput}
                 />
+                {errors.email && <ErrorMsg errorMsg={errors.password[0]} />}
               </label>
               <div className="d-grid mt-4">
-                <button
-                  onClick={handleLogin}
-                  className="btn btn-primary mt-4"
-                  type="button"
-                >
-                  Login
-                </button>
+                {isLoading && <Spinner />}
+                {!isLoading && (
+                  <button
+                    onClick={handleLogin}
+                    className="btn btn-primary mt-4"
+                    type="button"
+                  >
+                    Login
+                  </button>
+                )}
               </div>
             </div>
           </div>
