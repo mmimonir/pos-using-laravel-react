@@ -12,8 +12,8 @@ import axios from "axios";
 function App() {
   const [auth, setAuth] = useState(false);
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token !== null) {
+    const items = JSON.parse(localStorage.getItem("items"));
+    if (items?.token) {
       setAuth(true);
     }
   }, []);

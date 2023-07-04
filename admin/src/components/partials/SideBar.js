@@ -1,4 +1,5 @@
 import React from "react";
+import GetLocalStorageItem from "../utils/GetLocalStorageItem";
 
 const SideBar = () => {
   return (
@@ -155,7 +156,7 @@ const SideBar = () => {
         </div>
         <div className="sb-sidenav-footer bg-theme text-silver">
           <div className="small">Logged in as:</div>
-          {localStorage.name && localStorage.name}
+          {GetLocalStorageItem("name")}
         </div>
       </nav>
     </div>

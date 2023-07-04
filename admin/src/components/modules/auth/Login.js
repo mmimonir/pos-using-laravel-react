@@ -23,11 +23,12 @@ const Login = () => {
       .post(`${Constants.BASE_URL}/login`, input)
       .then((res) => {
         // console.log(res.data);
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("email", res.data.email);
-        localStorage.setItem("name", res.data.name);
-        localStorage.setItem("photo", res.data.photo);
-        localStorage.setItem("phone", res.data.phone);
+        // localStorage.setItem("token", res.data.token);
+        // localStorage.setItem("email", res.data.email);
+        // localStorage.setItem("name", res.data.name);
+        // localStorage.setItem("photo", res.data.photo);
+        // localStorage.setItem("phone", res.data.phone);
+        localStorage.setItem("items", JSON.stringify(res.data));
         setIsLoading(false);
         window.location.reload();
       })

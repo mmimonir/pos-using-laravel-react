@@ -6,11 +6,15 @@ export const axiosInstance = axios.create({});
 axiosInstance.interceptors.request.use(
   // console.log("interceptor"),
   function (config) {
-    const token = localStorage.getItem("token");
-    // console.log(token);
-    if (token !== null) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+    // const token = localStorage.getItem("token");
+    const items = JSON.parse(localStorage.getItem("items"));
+    if (items?.token) {
+      config.headers["Authorization"] = `Bearer ${items.token}`;
     }
+    // console.log(token);
+    // if (token !== null) {
+    //   config.headers["Authorization"] = `Bearer ${token}`;
+    // }
     return config;
   },
   function (error) {

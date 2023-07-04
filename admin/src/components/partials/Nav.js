@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import Constants from "../../Constants";
 import GlobalFunction from "../../GlobalFunction";
 import { axiosInstance } from "../../AxiosInterceptor";
+import GetLocalStorageItem from "../utils/GetLocalStorageItem";
 
 const Nav = () => {
   const handleLogout = () => {
@@ -56,7 +57,7 @@ const Nav = () => {
         <i className="fas fa-bars"></i>
       </button>
       <ul className="navbar-nav align-items-center ms-auto me-3 me-lg-4">
-        <p className="text-white">{localStorage.name && localStorage.name}</p>
+        <p className="text-white">{GetLocalStorageItem("name")}</p>
         <li className="nav-item dropdown">
           <a
             className="nav-link dropdown-toggle"
