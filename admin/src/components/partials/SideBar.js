@@ -1,6 +1,6 @@
 import React from "react";
 import GetLocalStorageItem from "../utils/GetLocalStorageItem";
-
+import { Link } from "react-router-dom";
 const SideBar = () => {
   return (
     <div id="layoutSidenav_nav">
@@ -11,13 +11,13 @@ const SideBar = () => {
         <div className="sb-sidenav-menu">
           <div className="nav">
             <div className="sb-sidenav-menu-heading">Core</div>
-            <a className="nav-link" href="index.html">
+            <Link className="nav-link" to={"/"}>
               <div className="sb-nav-link-icon">
                 <i className="fas fa-tachometer-alt"></i>
               </div>
               Dashboard
-            </a>
-            <div className="sb-sidenav-menu-heading">Interface</div>
+            </Link>
+            <div className="sb-sidenav-menu-heading">Management</div>
             <a
               className="nav-link collapsed"
               href="#"
@@ -29,7 +29,7 @@ const SideBar = () => {
               <div className="sb-nav-link-icon">
                 <i className="fas fa-columns"></i>
               </div>
-              Layouts
+              Category
               <div className="sb-sidenav-collapse-arrow">
                 <i className="fas fa-angle-down"></i>
               </div>
@@ -41,12 +41,12 @@ const SideBar = () => {
               data-bs-parent="#sidenavAccordion"
             >
               <nav className="sb-sidenav-menu-nested nav">
-                <a className="nav-link" href="layout-static.html">
-                  Static Navigation
-                </a>
-                <a className="nav-link" href="layout-sidenav-light.html">
-                  Light Sidenav
-                </a>
+                <Link className="nav-link" to="layout-static.html">
+                  Category List
+                </Link>
+                <Link className="nav-link" to="/category/create">
+                  Add Category
+                </Link>
               </nav>
             </div>
             <a

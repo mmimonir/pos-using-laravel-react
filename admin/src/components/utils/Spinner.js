@@ -1,6 +1,6 @@
 import React from "react";
 
-const Spinner = () => {
+const Spinner = (props) => {
   return (
     <button class="btn btn-primary" type="button" disabled>
       <span
@@ -8,7 +8,7 @@ const Spinner = () => {
         role="status"
         aria-hidden="true"
       ></span>
-      Login...
+      {props.text}...
     </button>
   );
 };

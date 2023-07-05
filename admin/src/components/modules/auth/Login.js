@@ -77,7 +77,7 @@ const Login = () => {
                 {errors.email && <ErrorMsg errorMsg={errors.password[0]} />}
               </label>
               <div className="d-grid mt-4">
-                {isLoading && <Spinner />}
+                {isLoading && <Spinner text={"Login"} />}
                 {!isLoading && (
                   <button
                     onClick={handleLogin}

@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Master from "../layout/Master";
 import Dashboard from "../modules/Dashboard";
 import Error500 from "../modules/Error500";
+import AddCategory from "../modules/category/AddCategory";
 
 const ProjectRouter = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ const ProjectRouter = createBrowserRouter([
       {
         path: "/",
         element: <Dashboard />,
+      },
+      {
+        path: "category/create",
+        element: <AddCategory />,
       },
       {
         path: "/error-500",
