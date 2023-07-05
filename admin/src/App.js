@@ -7,13 +7,13 @@ import { RouterProvider } from "react-router-dom";
 import ProjectRouter from "./components/router/ProjectRouter";
 import { useEffect, useState } from "react";
 import PublicRouter from "./components/router/PublicRouter";
-import axios from "axios";
+import GetLocalStorageItem from "./components/utils/GetLocalStorageItem";
 
 function App() {
   const [auth, setAuth] = useState(false);
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem("items"));
-    if (items?.token) {
+    const token = GetLocalStorageItem("token");
+    if (token) {
       setAuth(true);
     }
   }, []);

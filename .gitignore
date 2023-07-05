@@ -2,3 +2,4 @@
 /api/node_modules
 /api/vendor
 /api/.env
+/admin/.env
