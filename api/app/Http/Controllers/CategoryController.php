@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Manager\ImageUploadManager;
 
 class CategoryController extends Controller
 {
@@ -29,7 +31,23 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        // return $request->all();
+        $category = $request->except('photo');
+        $category['user_id'] = auth()->user()->id;
+        $category['slug'] = Str::slug($request->input('slug'));
+        if ($request->has('photo')) {
+            $file = $request->input('photo');
+            $width = 800;
+            $height = 800;
+            $width_thumb = 150;
+            $height_thumb = 150;
+            $name = Str::slug($request->input('slug'));
+            $path = 'images/uploads/category/';
+            $path_thumb = 'images/uploads/category_thumb/';
+            $category['photo'] = ImageUploadManager::uploadImage($name, $width, $height, $path, $file);
+            ImageUploadManager::uploadImage($name, $width_thumb, $height_thumb, $path_thumb, $file);
+        }
+        (new Category())->storeCategory($category);
     }
 
     /**
