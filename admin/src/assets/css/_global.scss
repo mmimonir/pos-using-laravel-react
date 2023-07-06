@@ -2,36 +2,49 @@ body {
   // font-family: Ubuntu, serif;
   overflow-x: hidden;
 }
-.bg-theme{
-  background-image: linear-gradient(90deg, $theme-color, $theme-color-light, $theme-color);
+.bg-theme {
+  background-image: linear-gradient(
+    90deg,
+    $theme-color,
+    $theme-color-light,
+    $theme-color
+  );
 }
-.text-silver{
+.text-silver {
   color: $silver;
 }
-.bg-theme-basic{
+.bg-theme-basic {
   background: $theme-color;
 }
-.text-theme-light{
+.text-theme-light {
   color: $theme-color-light;
 }
-.nav-link{
-  color:white;
-  &:hover{
+.nav-link {
+  color: white;
+  &:hover {
     color: $silver;
   }
-  &:focus{
+  &:focus {
     color: $silver;
   }
 }
-.sb-sidenav-menu-heading{
+.sb-sidenav-menu-heading {
   color: $theme-color-light;
 }
 a {
   text-decoration: none;
 }
-p, h1, h2, h3, h4, h5, h6, address, ul {
- margin: 0;
- padding: 0;
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+address,
+ul {
+  margin: 0;
+  padding: 0;
 }
 .text-justify {
   text-align: justify;
@@ -49,41 +62,51 @@ p, h1, h2, h3, h4, h5, h6, address, ul {
   aspect-ratio: 1/1 !important;
   object-fit: cover;
 }
-.modal-header{
-  padding: .25rem 1rem;
-  background-image: linear-gradient(90deg, $theme-color, $theme-color-light, $theme-color);
+.modal-header {
+  padding: 0.25rem 1rem;
+  background-image: linear-gradient(
+    90deg,
+    $theme-color,
+    $theme-color-light,
+    $theme-color
+  );
   color: white;
 }
-.text-theme{
+.text-theme {
   color: $theme-color;
 }
-.theme-button{
+.theme-button {
   background: $theme-color;
   border: 1px solid $theme-color;
   color: $white;
   @include transition;
-  a{
-    color:$white;
+  a {
+    color: $white;
   }
-  &:hover{
+  &:hover {
     background: $white;
     border: 1px solid $theme-color;
-    a{
-      color:$theme-color;
+    a {
+      color: $theme-color;
     }
   }
 }
-label{
+label {
   position: relative;
-  .login-error-msg{
+  .login-error-msg {
     position: absolute;
     color: red;
     text-shadow: 0 0 8px $white;
   }
 }
-.my-table{
-  font-size:14px;
-  td, td{
+.my-table {
+  font-size: 14px;
+  td,
+  td {
     vertical-align: middle !important;
   }
+}
+.table-image {
+  width: 75px;
+  cursor: pointer;
 }

@@ -8,11 +8,18 @@ import CategoryPhotoModal from "../../partials/modals/CategoryPhotoModal";
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
   const [modalShow, setModalShow] = React.useState(false);
+  const [modalPhoto, setModalPhoto] = React.useState("");
 
   const getCategories = () => {
     axiosInstance.get(`${Constants.BASE_URL}/category`).then((res) => {
+      console.log(res.data.data);
       setCategories(res.data.data);
     });
+  };
+  const handlePhotoModal = (photo) => {
+    console.log("Photo", photo);
+    setModalPhoto(photo);
+    setModalShow(true);
   };
   useEffect(() => {
     getCategories();
@@ -65,11 +72,12 @@ const CategoryList = () => {
                         </td>
                         <td>
                           <img
-                            onClick={() => setModalShow(true)}
+                            onClick={() =>
+                              handlePhotoModal(category.photo_full)
+                            }
                             src={category.photo}
                             alt={category.name}
-                            className={"img-thumbnail"}
-                            width={"70px"}
+                            className={"img-thumbnail table-image"}
                           />
                         </td>
                         <td>{category.created_by}</td>
@@ -89,6 +97,9 @@ const CategoryList = () => {
                 <CategoryPhotoModal
                   show={modalShow}
                   onHide={() => setModalShow(false)}
+                  title={"Category Photo"}
+                  size={""}
+                  photo={modalPhoto}
                 />
               </div>
             </div>
