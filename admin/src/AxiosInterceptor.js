@@ -1,27 +1,27 @@
 import axios from "axios";
 import GlobalFunction from "./GlobalFunction";
-import GetLocalStorageItem from '../src/components/utils/GetLocalStorageItem'
+import GetLocalStorageItem from "../src/components/utils/GetLocalStorageItem";
 
 export const axiosInstance = axios.create({});
 axiosInstance.interceptors.request.use(
   function (config) {
-    const token = GetLocalStorageItem('token');
+    const token = GetLocalStorageItem("token");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
   },
-  function (error) {    
+  function (error) {
     return Promise.reject(error);
   }
 );
 
-
 axiosInstance.interceptors.response.use(
-  function (response) {    
+  function (response) {
     return response;
   },
-  function (error) {    
+  function (error) {
+    console.log("From axios interceptor", error.response);
     if (error.response.status === 401) {
       GlobalFunction.logout();
     } else if (error.response.status === 500) {

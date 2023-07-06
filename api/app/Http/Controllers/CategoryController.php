@@ -48,6 +48,7 @@ class CategoryController extends Controller
             ImageUploadManager::uploadImage($name, $width_thumb, $height_thumb, $path_thumb, $file);
         }
         (new Category())->storeCategory($category);
+        return response()->json(['msg' => 'Category created successfully', 'cls' => 'success']);
     }
 
     /**

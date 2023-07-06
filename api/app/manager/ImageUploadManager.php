@@ -9,7 +9,7 @@ class ImageUploadManager
     final public static function uploadImage($name, $width, $height, $path, $file)
     {
         $image_file_name = $name . '.webp';
-        Image::make($file)->fit($width, $height)->save(public_path($path) . $image_file_name, 50, 'webp');
+        Image::make($file)->fit($width, $height)->save(public_path($path . $image_file_name), 50, 'webp');
         return $image_file_name;
     }
 

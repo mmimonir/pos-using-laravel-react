@@ -73,3 +73,11 @@ p, h1, h2, h3, h4, h5, h6, address, ul {
     }
   }
 }
+label{
+  position: relative;
+  .login-error-msg{
+    position: absolute;
+    color: red;
+    text-shadow: 0 0 8px $white;
+  }
+}

@@ -6,6 +6,7 @@ import ErrorMsg from "../../utils/ErrorMsg";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
 import Spinner from "../../utils/Spinner";
+import Swal from "sweetalert2";
 
 const AddCategory = () => {
   const [input, setInput] = useState({ status: 1 });
@@ -31,13 +32,21 @@ const AddCategory = () => {
       .post(`${Constants.BASE_URL}/category`, input)
       .then((res) => {
         setIsLoading(false);
+        Swal.fire({
+          position: "top-end",
+          icon: res.data.cls,
+          title: res.data.msg,
+          showConfirmButton: false,
+          toast: true,
+          timer: 1500,
+        });
         console.log(res.data);
       })
       .catch((errors) => {
+        console.log(errors);
         setIsLoading(false);
         if (errors.response.status === 422) {
           setErrors(errors.response.data.errors);
-          // console.log(errors);
         }
       });
   };
