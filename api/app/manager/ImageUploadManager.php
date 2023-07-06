@@ -6,6 +6,7 @@ use Intervention\Image\Facades\Image;
 
 class ImageUploadManager
 {
+    public const DEFAULT_IMAGE = 'images/default.webp';
     final public static function uploadImage($name, $width, $height, $path, $file)
     {
         $image_file_name = $name . '.webp';
@@ -19,5 +20,13 @@ class ImageUploadManager
         if ($img != '' && file_exists($path)) {
             unlink($path);
         }
+    }
+    final public static function prepareImageUrl($path, $img)
+    {
+        $url = url($path . $img);
+        if (empty($img)) {
+            $url = url(self::DEFAULT_IMAGE);
+        }
+        return $url;
     }
 }

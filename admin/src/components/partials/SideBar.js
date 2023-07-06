@@ -41,7 +41,7 @@ const SideBar = () => {
               data-bs-parent="#sidenavAccordion"
             >
               <nav className="sb-sidenav-menu-nested nav">
-                <Link className="nav-link" to="layout-static.html">
+                <Link className="nav-link" to="/category">
                   Category List
                 </Link>
                 <Link className="nav-link" to="/category/create">

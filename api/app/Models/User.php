@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -44,7 +45,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    final public function getUserByEmailOrPhone(array $input){
+    final public function getUserByEmailOrPhone(array $input)
+    {
         return self::query()->where('email', $input['email'])->orWhere('phone', $input['email'])->first();
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\CategoryListResource;
 use App\Manager\ImageUploadManager;
 
 class CategoryController extends Controller
@@ -15,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = (new Category())->getAllCategories();
+        return CategoryListResource::collection($categories);
+        // return response()->json(['categories' => $categories]);
     }
 
     /**
@@ -42,8 +45,8 @@ class CategoryController extends Controller
             $width_thumb = 150;
             $height_thumb = 150;
             $name = Str::slug($request->input('slug'));
-            $path = 'images/uploads/category/';
-            $path_thumb = 'images/uploads/category_thumb/';
+            $path = Category::IMAGE_UPLOAD_PATH;
+            $path_thumb = Category::THUMB_IMAGE_UPLOAD_PATH;
             $category['photo'] = ImageUploadManager::uploadImage($name, $width, $height, $path, $file);
             ImageUploadManager::uploadImage($name, $width_thumb, $height_thumb, $path_thumb, $file);
         }

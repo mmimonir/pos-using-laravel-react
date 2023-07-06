@@ -4,6 +4,7 @@ import Master from "../layout/Master";
 import Dashboard from "../modules/Dashboard";
 import Error500 from "../modules/Error500";
 import AddCategory from "../modules/category/AddCategory";
+import CategoryList from "../modules/category/CategoryList";
 
 const ProjectRouter = createBrowserRouter([
   {
@@ -15,7 +16,11 @@ const ProjectRouter = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "category/create",
+        path: "/category",
+        element: <CategoryList />,
+      },
+      {
+        path: "/category/create",
         element: <AddCategory />,
       },
       {

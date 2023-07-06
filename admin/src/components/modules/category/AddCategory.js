@@ -1,14 +1,16 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from "react";
 import BreadCrumb from "../../partials/BreadCrumb";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorMsg from "../../utils/ErrorMsg";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
 import Spinner from "../../utils/Spinner";
 import Swal from "sweetalert2";
+import CardHeader from "../../partials/miniComponent/CardHeader";
 
 const AddCategory = () => {
+  const navigate = useNavigate();
   const [input, setInput] = useState({ status: 1 });
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +42,8 @@ const AddCategory = () => {
           toast: true,
           timer: 1500,
         });
-        console.log(res.data);
+        navigate("/category");
+        // console.log(res.data);
       })
       .catch((errors) => {
         console.log(errors);
@@ -68,14 +71,12 @@ const AddCategory = () => {
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
-              <div className="d-flex justify-content-between align-items-center">
-                <h3 className={"text-theme"}>Add Category</h3>
-                <button className={"btn theme-button"}>
-                  <Link to={""}>
-                    <i className="fa-solid fa-list"></i> List
-                  </Link>
-                </button>
-              </div>
+              <CardHeader
+                title={"Add Category"}
+                link={"/category"}
+                icon={"fa-list"}
+                button_text={"List"}
+              />
             </div>
             <div className="card-body">
               <div className="row">

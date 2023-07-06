@@ -81,3 +81,9 @@ label{
     text-shadow: 0 0 8px $white;
   }
 }
+.my-table{
+  font-size:14px;
+  td, td{
+    vertical-align: middle !important;
+  }
+}
