@@ -4,8 +4,14 @@ import CardHeader from "../../partials/miniComponent/CardHeader";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
 import CategoryPhotoModal from "../../partials/modals/CategoryPhotoModal";
+import Pagination from "react-js-pagination";
 
 const CategoryList = () => {
+  const [itemsCountPerPage, setItemsCountPerPage] = useState(0);
+  const [totalItemsCount, setTotalItemsCount] = useState(1);
+  const [startFrom, setStartFrom] = useState(1);
+  const [activePage, setActivePage] = useState(1);
+
   const [categories, setCategories] = useState([]);
   const [modalShow, setModalShow] = React.useState(false);
   const [modalPhoto, setModalPhoto] = React.useState("");
@@ -14,6 +20,9 @@ const CategoryList = () => {
     axiosInstance.get(`${Constants.BASE_URL}/category`).then((res) => {
       console.log(res.data.data);
       setCategories(res.data.data);
+      setItemsCountPerPage(res.data.per_page);
+      setTotalItemsCount(res.data.total);
+      setStartFrom(res.data.from);
     });
   };
   const handlePhotoModal = (photo) => {
@@ -102,6 +111,15 @@ const CategoryList = () => {
                   photo={modalPhoto}
                 />
               </div>
+            </div>
+            <div className="card-footer">
+              <Pagination
+                activePage={activePage}
+                itemsCountPerPage={itemsCountPerPage}
+                totalItemsCount={totalItemsCount}
+                pageRangeDisplayed={5}
+                onChange={getCategories}
+              />
             </div>
           </div>
         </div>

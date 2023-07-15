@@ -29,7 +29,7 @@ class Category extends Model
     }
     final public function getAllCategories()
     {
-        return self::query()->with('user:id,name')->orderBy('serial', 'asc')->get();
+        return self::query()->with('user:id,name')->orderBy('serial', 'asc')->paginate(5);
     }
     public function user()
     {
