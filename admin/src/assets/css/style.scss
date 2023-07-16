@@ -2,24 +2,32 @@
 @import "mixin";
 @import "global";
 
-#login{
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    .card{        
-        width: 30%;
-        @include center;
-        box-shadow: 0 0 10px rgba(0,0,0,0.3);
-        label, h4{
-            color: $white;
-            position: relative;
-            .login-error-msg{
-                position: absolute;
-                color: red;
-                text-shadow: 0 0 8px $white;
-            }
-        }
-        
-        
+#login {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  .card {
+    width: 30%;
+    @include center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    label,
+    h4 {
+      color: $white;
+      position: relative;
+      .login-error-msg {
+        position: absolute;
+        color: red;
+        text-shadow: 0 0 8px $white;
+      }
     }
+  }
+}
+.search-area {
+  label {
+    font-size: 14px;
+    color: $theme-color;
+    p {
+      margin-bottom: 5px;
+    }
+  }
 }

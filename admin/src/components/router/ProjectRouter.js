@@ -5,6 +5,7 @@ import Dashboard from "../modules/Dashboard";
 import Error500 from "../modules/Error500";
 import AddCategory from "../modules/category/AddCategory";
 import CategoryList from "../modules/category/CategoryList";
+import Loader from "../partials/miniComponent/Loader";
 
 const ProjectRouter = createBrowserRouter([
   {

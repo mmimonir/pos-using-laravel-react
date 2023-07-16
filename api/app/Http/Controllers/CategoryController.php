@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Manager\ImageUploadManager;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryListResource;
-use App\Manager\ImageUploadManager;
+
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = (new Category())->getAllCategories();
+        $categories = (new Category())->getAllCategories($request->all());
         return CategoryListResource::collection($categories);
         // return response()->json(['categories' => $categories]);
     }
@@ -83,6 +85,11 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        if (!empty($category->photo)) {
+            ImageUploadManager::deletePhoto(Category::IMAGE_UPLOAD_PATH, $category->photo);
+            ImageUploadManager::deletePhoto(Category::THUMB_IMAGE_UPLOAD_PATH, $category->photo);
+        }
+        $category->delete();
+        return response()->json(['msg' => 'Category Deleted successfully', 'cls' => 'warning']);
     }
 }

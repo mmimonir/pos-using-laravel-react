@@ -110,3 +110,15 @@ label {
   width: 75px;
   cursor: pointer;
 }
+.loader {
+  width: 100%;
+  height: 250px;
+  position: relative;
+  img {
+    position: absolute;
+    @include center;
+  }
+}
+.soft-landing {
+  @include transition;
+}

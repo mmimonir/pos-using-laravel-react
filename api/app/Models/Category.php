@@ -27,9 +27,17 @@ class Category extends Model
     {
         return self::query()->create($input);
     }
-    final public function getAllCategories()
+    final public function getAllCategories($input)
     {
-        return self::query()->with('user:id,name')->orderBy('serial', 'asc')->paginate(2);
+        $per_page = $input['per_page'] ?? 2;
+        $query = self::query();
+        if (!empty($input['search'])) {
+            $query->where('name', 'LIKE', '%' . $input['search'] . '%');
+        }
+        if (!empty($input['order_by'])) {
+            $query->orderBy($input['order_by'], $input['direction'] ?? 'asc');
+        }
+        return $query->with('user:id,name')->paginate($per_page);
     }
     public function user()
     {
