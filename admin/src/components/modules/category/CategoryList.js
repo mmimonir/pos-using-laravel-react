@@ -10,6 +10,7 @@ import Spinner from "../../utils/Spinner";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Loader from "../../partials/miniComponent/Loader";
+import NoDataFound from "../../partials/miniComponent/NoDataFound";
 
 const CategoryList = () => {
   const [input, setInput] = useState({
@@ -27,6 +28,7 @@ const CategoryList = () => {
 
   const [categories, setCategories] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const [modalPhotoShow, setModalPhotoShow] = useState(false);
   const [modalPhoto, setModalPhoto] = useState("");
 
   const handleInput = (e) => {
@@ -55,7 +57,7 @@ const CategoryList = () => {
   const handlePhotoModal = (photo) => {
     // console.log("Photo", photo);
     setModalPhoto(photo);
-    setModalShow(true);
+    setModalPhotoShow(true);
   };
   const handleDetailsModal = (category) => {
     setCategory(category);
@@ -213,71 +215,81 @@ const CategoryList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {categories.map((category, index) => (
-                        <tr key={index}>
-                          <td>{startFrom + index}</td>
-                          <td>
-                            <p className={"text-theme"}>
-                              Name: {category.name}
-                            </p>
-                            <p className={"text-success"}>
-                              Slug: {category.slug}
-                            </p>
-                          </td>
-                          <td>
-                            <p className={"text-theme"}>
-                              Serial: {category.serial}
-                            </p>
-                            <p className={"text-success"}>
-                              Status: {category.status}
-                            </p>
-                          </td>
-                          <td>
-                            <img
-                              onClick={() =>
-                                handlePhotoModal(category.photo_full)
-                              }
-                              src={category.photo}
-                              alt={category.name}
-                              className={"img-thumbnail table-image"}
-                            />
-                          </td>
-                          <td>{category.created_by}</td>
-                          <td>
-                            <p className={"text-theme"}>
-                              <small>Created: {category.created_at}</small>
-                            </p>
-                            <p className={"text-success"}>
-                              <small>Updated: {category.updated_at}</small>
-                            </p>
-                          </td>
-                          <td>
-                            <button
-                              onClick={() => handleDetailsModal(category)}
-                              className={"btn btn-sm btn-info my-1"}
-                            >
-                              <i className={"fa-solid fa-eye"}></i>
-                            </button>
-                            <Link
-                              to={`/`}
-                              className={"btn btn-sm btn-warning my-1 mx-1"}
-                            >
-                              <i className={"fa-solid fa-edit"}></i>
-                            </Link>
-                            <button
-                              onClick={() => handleCategoryDelete(category.id)}
-                              className={"btn btn-sm btn-danger my-1"}
-                            >
-                              <i className={"fa-solid fa-trash"}></i>
-                            </button>
+                      {Object.keys(categories).length > 0 ? (
+                        categories.map((category, index) => (
+                          <tr key={index}>
+                            <td>{startFrom + index}</td>
+                            <td>
+                              <p className={"text-theme"}>
+                                Name: {category.name}
+                              </p>
+                              <p className={"text-success"}>
+                                Slug: {category.slug}
+                              </p>
+                            </td>
+                            <td>
+                              <p className={"text-theme"}>
+                                Serial: {category.serial}
+                              </p>
+                              <p className={"text-success"}>
+                                Status: {category.status}
+                              </p>
+                            </td>
+                            <td>
+                              <img
+                                onClick={() =>
+                                  handlePhotoModal(category.photo_full)
+                                }
+                                src={category.photo}
+                                alt={category.name}
+                                className={"img-thumbnail table-image"}
+                              />
+                            </td>
+                            <td>{category.created_by}</td>
+                            <td>
+                              <p className={"text-theme"}>
+                                <small>Created: {category.created_at}</small>
+                              </p>
+                              <p className={"text-success"}>
+                                <small>Updated: {category.updated_at}</small>
+                              </p>
+                            </td>
+                            <td>
+                              <button
+                                onClick={() => handleDetailsModal(category)}
+                                className={"btn btn-sm btn-info my-1"}
+                              >
+                                <i className={"fa-solid fa-eye"}></i>
+                              </button>
+                              <Link
+                                to={`/category/edit/${category.id}}`}
+                                className={"btn btn-sm btn-warning my-1 mx-1"}
+                              >
+                                <i className={"fa-solid fa-edit"}></i>
+                              </Link>
+                              <button
+                                onClick={() =>
+                                  handleCategoryDelete(category.id)
+                                }
+                                className={"btn btn-sm btn-danger my-1"}
+                              >
+                                <i className={"fa-solid fa-trash"}></i>
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={7} className={"text-center"}>
+                            <NoDataFound text_color={"text-danger"} />
                           </td>
                         </tr>
-                      ))}
+                      )}
                     </tbody>
                   </table>
                   <CategoryPhotoModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
+                    show={modalPhotoShow}
+                    onHide={() => setModalPhotoShow(false)}
                     title={"Category Photo"}
                     size={""}
                     photo={modalPhoto}
