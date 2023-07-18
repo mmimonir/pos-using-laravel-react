@@ -7,6 +7,8 @@ import AddCategory from "../modules/category/AddCategory";
 import CategoryList from "../modules/category/CategoryList";
 import Loader from "../partials/miniComponent/Loader";
 import CategoryEdit from "../modules/category/CategoryEdit";
+import SubCategoryAdd from "../modules/subCategoryAdd/SubCategoryAdd";
+import SubCategoryList from "../modules/subCategoryAdd/SubCategoryList";
 
 const ProjectRouter = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const ProjectRouter = createBrowserRouter([
       {
         path: "/category/edit/:id",
         element: <CategoryEdit />,
+      },
+      {
+        path: "/sub-category",
+        element: <SubCategoryList />,
+      },
+      {
+        path: "/sub-category/create",
+        element: <SubCategoryAdd />,
       },
       {
         path: "/error-500",

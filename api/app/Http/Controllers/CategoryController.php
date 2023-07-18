@@ -92,6 +92,12 @@ class CategoryController extends Controller
         return response()->json(['msg' => 'Category Deleted successfully', 'cls' => 'warning']);
     }
 
+    public function get_category_list()
+    {
+        $categories = (new Category())->getCategoryIdAndName();
+        return response()->json($categories);
+    }
+
     private function processImageUpload($file, $name, $existing_photo = null)
     {
         $width = 800;
