@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\SubCategory;
 use Illuminate\Support\Str;
-use App\Manager\ImageUploadManager;
 use Illuminate\Http\Request;
+use App\Manager\ImageUploadManager;
 use App\Http\Requests\StoreSubCategoryRequest;
 use App\Http\Requests\UpdateSubCategoryRequest;
+use App\Http\Resources\SubCategoryEditResource;
 use App\Http\Resources\SubCategoryListResource;
 
 class SubCategoryController extends Controller
@@ -50,7 +51,7 @@ class SubCategoryController extends Controller
      */
     public function show(SubCategory $subCategory)
     {
-        //
+        return new SubCategoryEditResource($subCategory);
     }
 
     /**
@@ -66,7 +67,14 @@ class SubCategoryController extends Controller
      */
     public function update(UpdateSubCategoryRequest $request, SubCategory $subCategory)
     {
-        //
+        // return $request->all();
+        $sub_category_data = $request->except('photo');
+        $sub_category_data['slug'] = Str::slug($request->input('slug'));
+        if ($request->has('photo')) {
+            $sub_category_data['photo'] = $this->processImageUpload($request->input('photo'), $sub_category_data['slug'], $subCategory->photo);
+        }
+        $subCategory->update($sub_category_data);
+        return response()->json(['msg' => 'Sub Category Updated successfully', 'cls' => 'success']);
     }
 
     /**
