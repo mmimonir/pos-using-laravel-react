@@ -11,6 +11,8 @@ import SubCategoryAdd from "../modules/subCategoryAdd/SubCategoryAdd";
 import SubCategoryList from "../modules/subCategoryAdd/SubCategoryList";
 import SubCategoryEdit from "../modules/subCategoryAdd/SubCategoryEdit";
 import BrandAdd from "../modules/brand/BrandAdd";
+import BrandList from "../modules/brand/BrandList";
+import BrandEdit from "../modules/brand/BrandEdit";
 
 const ProjectRouter = createBrowserRouter([
   {
@@ -46,8 +48,16 @@ const ProjectRouter = createBrowserRouter([
         element: <SubCategoryEdit />,
       },
       {
+        path: "/brand",
+        element: <BrandList />,
+      },
+      {
         path: "/brand/create",
         element: <BrandAdd />,
+      },
+      {
+        path: "/brand/edit/:id",
+        element: <BrandEdit />,
       },
       {
         path: "/error-500",

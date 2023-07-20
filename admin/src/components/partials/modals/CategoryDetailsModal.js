@@ -63,12 +63,22 @@ const CategoryDetailsModal = (props) => {
               <tr>
                 <th>Photo</th>
                 <td>
-                  <img
-                    src={props.category.photo}
-                    alt="Photo"
-                    className={"img-thumbnail"}
-                    alt={"photo"}
-                  />
+                  {props.category.photo && (
+                    <img
+                      src={props.category.photo}
+                      alt="Photo"
+                      className={"img-thumbnail"}
+                      alt={"photo"}
+                    />
+                  )}
+                  {props.category.logo && (
+                    <img
+                      src={props.category.logo}
+                      alt="Photo"
+                      className={"img-thumbnail"}
+                      alt={"photo"}
+                    />
+                  )}
                 </td>
               </tr>
             </tbody>

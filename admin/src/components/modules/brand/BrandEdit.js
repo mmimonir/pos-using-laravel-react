@@ -1,7 +1,6 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BreadCrumb from "../../partials/BreadCrumb";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ErrorMsg from "../../utils/ErrorMsg";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
@@ -9,11 +8,23 @@ import Spinner from "../../utils/Spinner";
 import Swal from "sweetalert2";
 import CardHeader from "../../partials/miniComponent/CardHeader";
 
-const BrandAdd = () => {
+const BrandEdit = () => {
+  const params = useParams();
   const navigate = useNavigate();
   const [input, setInput] = useState({ status: 1 });
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [brand, setBrand] = useState([]);
+
+  const getBrand = () => {
+    axiosInstance
+      .get(`${Constants.BASE_URL}/brand/${params.id}`)
+      .then((res) => {
+        // setCategory(res.data.data);
+        setInput(res.data.data);
+      });
+  };
+
   const handleInput = (e) => {
     if (e.target.name === "name") {
       let slug = e.target.value.toLowerCase().replaceAll(" ", "-");
@@ -28,10 +39,10 @@ const BrandAdd = () => {
     }));
     setErrors([]);
   };
-  const handleBrandCreate = () => {
+  const handleBrandUpdate = () => {
     setIsLoading(true);
     axiosInstance
-      .post(`${Constants.BASE_URL}/brand`, input)
+      .put(`${Constants.BASE_URL}/brand/${params.id}`, input)
       .then((res) => {
         setIsLoading(false);
         Swal.fire({
@@ -64,16 +75,19 @@ const BrandAdd = () => {
     };
     reader.readAsDataURL(file);
   };
+  useEffect(() => {
+    getBrand();
+  }, []);
   return (
     <>
-      <BreadCrumb title={"Add Brand"} location={"Dashboard"} />
+      <BreadCrumb title={"Edit Brand"} location={"Dashboard"} />
       <div className="row">
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
               <CardHeader
-                title={"Add Brand"}
-                link={"/brand/create"}
+                title={"Edit Brand"}
+                link={"/brand"}
                 icon={"fa-list"}
                 button_text={"List"}
               />
@@ -93,7 +107,7 @@ const BrandAdd = () => {
                       type={"text"}
                       value={input.name}
                       onChange={handleInput}
-                      placeholder="Enter brand Name"
+                      placeholder="Enter Brand Name"
                     />
                     {errors.name && <ErrorMsg errorMsg={errors.name[0]} />}
                   </label>
@@ -129,7 +143,7 @@ const BrandAdd = () => {
                       type={"number"}
                       value={input.serial}
                       onChange={handleInput}
-                      placeholder="Enter brand serial"
+                      placeholder="Enter Brand serial"
                     />
                     {errors.serial && <ErrorMsg errorMsg={errors.serial[0]} />}
                   </label>
@@ -146,7 +160,7 @@ const BrandAdd = () => {
                       name={"status"}
                       value={input.status}
                       onChange={handleInput}
-                      placeholder="Enter brand status"
+                      placeholder="Enter Brand status"
                     >
                       <option disabled={true} value={""}>
                         Select Status
@@ -169,7 +183,7 @@ const BrandAdd = () => {
                       name={"description"}
                       value={input.description}
                       onChange={handleInput}
-                      placeholder="Enter brand description"
+                      placeholder="Enter Brand description"
                     />
                     {errors.description && (
                       <ErrorMsg errorMsg={errors.description[0]} />
@@ -188,23 +202,28 @@ const BrandAdd = () => {
                       name={"logo"}
                       type={"file"}
                       onChange={handleLogo}
-                      placeholder="Enter brand description"
+                      placeholder="Enter Brand description"
                     />
                     {errors.logo && <ErrorMsg errorMsg={errors.logo[0]} />}
                   </label>
-                  {input.logo && (
+                  {input.logo !== undefined ||
+                  input.logo_preview !== undefined ? (
                     <div className="row">
                       <div className="col-6">
                         <div className="photo-preview mt-3">
                           <img
-                            src={input.logo}
+                            src={
+                              input.logo == undefined
+                                ? input.logo_preview
+                                : input.logo
+                            }
                             alt="logo preview"
                             className={"img-thumbnail aspect-one"}
                           />
                         </div>
                       </div>
                     </div>
-                  )}
+                  ) : null}
                 </div>
                 <div className="col-md-12 col-sm-12">
                   <div className="row justify-content-center">
@@ -214,9 +233,9 @@ const BrandAdd = () => {
                         {!isLoading && (
                           <button
                             className={"btn theme-button"}
-                            onClick={handleBrandCreate}
+                            onClick={handleBrandUpdate}
                           >
-                            Add Brand
+                            Update Brand
                           </button>
                         )}
                       </div>
@@ -232,4 +251,4 @@ const BrandAdd = () => {
   );
 };
 
-export default BrandAdd;
+export default BrandEdit;
