@@ -9,4 +9,9 @@ class District extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function getDistrictByDivisionId($id)
+    {
+        return self::query()->select('id', 'name')->where('division_id', $id)->get();
+    }
 }

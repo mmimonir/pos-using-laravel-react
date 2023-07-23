@@ -9,4 +9,9 @@ class Division extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function getDivisionList()
+    {
+        return self::query()->select('id', 'name')->get();
+    }
 }

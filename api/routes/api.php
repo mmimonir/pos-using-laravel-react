@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DistrictController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\SubCategoryController;
 use App\Manager\ScriptManager;
+use App\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get("test", [ScriptManager::class, 'getLocationData']);
 Route::post("login", [AuthController::class, 'login']);
+
+Route::get('divisions', [DivisionController::class, 'index']);
+Route::get('districts/{id}', [DistrictController::class, 'index']);
+Route::get('areas/{id}', [AreaController::class, 'index']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post("logout", [AuthController::class, 'logout']);
