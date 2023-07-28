@@ -29,4 +29,29 @@ class ImageUploadManager
         }
         return $url;
     }
+    public static function processImageUpload(
+        $file,
+        $name,
+        $path,
+        $width,
+        $height,
+        $path_thumb = null,
+        $width_thumb = 0,
+        $height_thumb = 0,
+        $existing_photo = null
+    ) {
+        if (!empty($existing_photo)) {
+            self::deletePhoto($path, $existing_photo);
+            if (!empty($path_thumb)) {
+                self::deletePhoto($path_thumb, $existing_photo);
+            }
+        }
+
+        $photo_name = self::uploadImage($name, $width, $height, $path, $file);
+        if (!empty($path_thumb)) {
+            self::uploadImage($name, $width_thumb, $height_thumb, $path_thumb, $file);
+        }
+
+        return $photo_name;
+    }
 }

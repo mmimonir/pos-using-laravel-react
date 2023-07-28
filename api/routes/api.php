@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\AreaController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DistrictController;
-use App\Http\Controllers\DivisionController;
-use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\{
+    AreaController,
+    AuthController,
+    BrandController,
+    CategoryController,
+    DistrictController,
+    DivisionController,
+    SubCategoryController,
+    SupplierController
+};
 use App\Manager\ScriptManager;
 use App\Models\District;
 use Illuminate\Http\Request;
@@ -36,4 +39,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("category", CategoryController::class);
     Route::apiResource("sub-category", SubCategoryController::class);
     Route::apiResource("brand", BrandController::class);
+    Route::apiResource("supplier", SupplierController::class);
 });

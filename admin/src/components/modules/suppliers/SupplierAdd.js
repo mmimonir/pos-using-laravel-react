@@ -84,7 +84,7 @@ const SupplierAdd = () => {
           toast: true,
           timer: 1500,
         });
-        navigate("/supplier");
+        // navigate("/supplier");
         // console.log(res.data);
       })
       .catch((errors) => {
@@ -135,19 +135,17 @@ const SupplierAdd = () => {
                         <p>Company Name</p>
                         <input
                           className={
-                            errors.company_name !== undefined
+                            errors.name !== undefined
                               ? "form-control mt-2 is-invalid"
                               : "form-control mt-2"
                           }
-                          name={"company_name"}
+                          name={"name"}
                           type={"text"}
-                          value={input.company_name}
+                          value={input.name}
                           onChange={handleInput}
                           placeholder="Enter Supplier Company Name"
                         />
-                        {errors.company_name && (
-                          <ErrorMsg errorMsg={errors.company_name[0]} />
-                        )}
+                        {errors.name && <ErrorMsg errorMsg={errors.name[0]} />}
                       </label>
                       <label className="w-100 mt-4">
                         <p>Phone</p>

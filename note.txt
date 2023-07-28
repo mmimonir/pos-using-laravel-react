@@ -4,3 +4,4 @@ php artisan make:model Brand -a
 php artisan db:seed AdminSeeder
 php artisan make:resource BrandListResource
 php artisan make:resource BrandEditResource
+php artisan migrate:rollback
