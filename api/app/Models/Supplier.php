@@ -44,4 +44,9 @@ class Supplier extends Model
     {
         return $this->morphOne(Address::class, 'addressable');
     }
+
+    public function getSupplierList($input)
+    {
+        return $supplier = self::query()->with('address')->get();
+    }
 }

@@ -84,7 +84,7 @@ const SupplierAdd = () => {
           toast: true,
           timer: 1500,
         });
-        // navigate("/supplier");
+        navigate("/supplier");
         // console.log(res.data);
       })
       .catch((errors) => {
