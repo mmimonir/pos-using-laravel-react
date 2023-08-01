@@ -9,6 +9,7 @@ use App\Manager\ImageUploadManager;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use App\Http\Resources\SupplierListResource;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
@@ -20,7 +21,7 @@ class SupplierController extends Controller
     {
         $suppliers = (new Supplier())->getSupplierList($request->all());
 
-        return response()->json(['suppliers' => $suppliers]);
+        return SupplierListResource::collection($suppliers);
     }
 
     /**

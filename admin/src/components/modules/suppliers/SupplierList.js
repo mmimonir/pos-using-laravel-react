@@ -14,9 +14,9 @@ import NoDataFound from "../../partials/miniComponent/NoDataFound";
 
 const SupplierList = () => {
   const [input, setInput] = useState({
-    order_by: "serial",
+    order_by: "created_at",
     per_page: 10,
-    direction: "asc",
+    direction: "desc",
     search: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -150,8 +150,8 @@ const SupplierList = () => {
                         <option value="name">Name</option>
                         <option value="created_at">Created at</option>
                         <option value="updated_at">Updated at</option>
-                        <option value="serial">Serial</option>
-                        <option value="status">Status</option>
+                        <option value="phone">Phone</option>
+                        <option value="email">Email</option>
                       </select>
                     </label>
                   </div>
@@ -206,8 +206,9 @@ const SupplierList = () => {
                     <thead>
                       <tr>
                         <th>SL</th>
-                        <th>Name / Slug</th>
-                        <th>Serial / Status</th>
+                        <th>Name</th>
+                        <th>Phone/Email</th>
+                        <th>Status</th>
                         <th>Photo</th>
                         <th>Created By</th>
                         <th>Date Time</th>
@@ -220,27 +221,24 @@ const SupplierList = () => {
                           <tr key={index}>
                             <td>{startFrom + index}</td>
                             <td>
-                              <p className={"text-theme"}>
-                                Name: {supplier.name}
-                              </p>
-                              <p className={"text-success"}>
-                                Slug: {supplier.slug}
-                              </p>
+                              <p>{supplier.name}</p>
                             </td>
                             <td>
-                              <p className={"text-theme"}>
-                                Serial: {supplier.serial}
-                              </p>
                               <p className={"text-success"}>
-                                Status: {supplier.status}
+                                Email: {supplier.email}
+                              </p>
+                              <p className={"text-info"}>
+                                Phone: {supplier.phone}
                               </p>
                             </td>
+
+                            <td>{supplier.status}</td>
                             <td>
                               <img
                                 onClick={() =>
-                                  handlePhotoModal(supplier.photo_full)
+                                  handlePhotoModal(supplier.logo_full)
                                 }
-                                src={supplier.photo}
+                                src={supplier.logo}
                                 alt={supplier.name}
                                 className={"img-thumbnail table-image"}
                               />

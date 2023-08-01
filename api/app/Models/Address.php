@@ -16,7 +16,7 @@ class Address extends Model
         'area_id',
         'district_id',
         'division_id',
-        // 'landmark',
+        'landmark',
         'status',
         'type',
     ];
@@ -33,7 +33,7 @@ class Address extends Model
         $address['area_id'] = $input['area_id'] ?? '';
         $address['district_id'] = $input['district_id'] ?? '';
         $address['division_id'] = $input['division_id'] ?? '';
-        // $address['landmark'] = $input['landmark'] ?? '';
+        $address['landmark'] = $input['landmark'] ?? '';
         $address['status'] = $input['status'] ?? '';
         $address['type'] = self::SUPPLIER_ADDRESS;
         return $address;
@@ -42,5 +42,20 @@ class Address extends Model
     public function addressable()
     {
         return $this->morphTo();
+    }
+
+    public function division()
+    {
+        return $this->belongsTo(Division::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function area()
+    {
+        return $this->belongsTo(Area::class);
     }
 }

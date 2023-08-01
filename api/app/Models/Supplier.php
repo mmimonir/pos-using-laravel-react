@@ -20,7 +20,9 @@ class Supplier extends Model
     ];
 
     public const STATUS_ACTIVE = 1;
+    public const STATUS_ACTIVE_TEXT = 'Active';
     public const STATUS_INACTIVE = 0;
+    public const STATUS_INACTIVE_TEXT = 'Inactive';
     public const LOGO_WIDTH = 800;
     public const LOGO_HEIGHT = 800;
     public const LOGO_THUMB_WIDTH = 200;
@@ -47,6 +49,28 @@ class Supplier extends Model
 
     public function getSupplierList($input)
     {
-        return $supplier = self::query()->with('address')->get();
+        $per_page = $input['per_page'] ?? 2;
+        $query = self::query()
+            ->with(
+                'address',
+                'address.division:id,name',
+                'address.district:id,name',
+                'address.area:id,name',
+                'user:id,name'
+            );
+        if (!empty($input['search'])) {
+            $query->where('name', 'LIKE', '%' . $input['search'] . '%')
+                ->orWhere('phone', 'LIKE', '%' . $input['search'] . '%')
+                ->orWhere('email', 'LIKE', '%' . $input['search'] . '%');
+        }
+        if (!empty($input['order_by'])) {
+            $query->orderBy($input['order_by'], $input['direction'] ?? 'asc');
+        }
+        return $query->paginate($per_page);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
