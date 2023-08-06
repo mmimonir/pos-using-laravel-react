@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../partials/BreadCrumb";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ErrorMsg from "../../utils/ErrorMsg";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
@@ -9,14 +9,28 @@ import Spinner from "../../utils/Spinner";
 import Swal from "sweetalert2";
 import CardHeader from "../../partials/miniComponent/CardHeader";
 
-const SupplierAdd = () => {
+const SupplierEdit = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const [input, setInput] = useState({ status: 1 });
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [divisions, setDivisions] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [areas, setAreas] = useState([]);
+
+  const getSupplier = () => {
+    axiosInstance
+      .get(`${Constants.BASE_URL}/supplier/${params.id}`)
+      .then((res) => {
+        setInput(res.data.data);
+        getDisctricts(res.data.data.division_id);
+        getAreas(res.data.data.district_id);
+      })
+      .catch((errors) => {
+        console.log(errors);
+      });
+  };
 
   const getDivisions = () => {
     axiosInstance
@@ -70,10 +84,10 @@ const SupplierAdd = () => {
     }));
     setErrors([]);
   };
-  const handleSupplierCreate = () => {
+  const handleSupplierUpdate = () => {
     setIsLoading(true);
     axiosInstance
-      .post(`${Constants.BASE_URL}/supplier`, input)
+      .put(`${Constants.BASE_URL}/supplier/${params.id}`, input)
       .then((res) => {
         setIsLoading(false);
         Swal.fire({
@@ -110,16 +124,17 @@ const SupplierAdd = () => {
   };
   useEffect(() => {
     getDivisions();
+    getSupplier();
   }, []);
   return (
     <>
-      <BreadCrumb title={"Add Supplier"} location={"Dashboard"} />
+      <BreadCrumb title={"Edit Supplier"} location={"Dashboard"} />
       <div className="row">
         <div className="col-md-12">
           <div className="card">
             <div className="card-header">
               <CardHeader
-                title={"Add Supplier"}
+                title={"Edit Supplier"}
                 link={"/supplier"}
                 icon={"fa-list"}
                 button_text={"List"}
@@ -130,7 +145,7 @@ const SupplierAdd = () => {
                 <div className="col-md-6">
                   <div className="card">
                     <div className="card-header">
-                      <h5 className="card-title">Supplier Details</h5>
+                      <h5 className="card-title">Edit Supplier</h5>
                     </div>
                     <div className="card-body">
                       <label className="w-100">
@@ -240,19 +255,24 @@ const SupplierAdd = () => {
                         />
                         {errors.logo && <ErrorMsg errorMsg={errors.logo[0]} />}
                       </label>
-                      {input.logo && (
+                      {input.logo != undefined ||
+                      input.display_logo != undefined ? (
                         <div className="row">
                           <div className="col-6">
                             <div className="photo-preview mt-3">
                               <img
-                                src={input.logo}
+                                src={
+                                  input.logo == undefined
+                                    ? input.display_logo
+                                    : input.logo
+                                }
                                 alt="Logo preview"
                                 className={"img-thumbnail aspect-one"}
                               />
                             </div>
                           </div>
                         </div>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 </div>
@@ -390,9 +410,9 @@ const SupplierAdd = () => {
                         {!isLoading && (
                           <button
                             className={"btn theme-button"}
-                            onClick={handleSupplierCreate}
+                            onClick={handleSupplierUpdate}
                           >
-                            Add Supplier
+                            Update Supplier
                           </button>
                         )}
                       </div>
@@ -408,4 +428,4 @@ const SupplierAdd = () => {
   );
 };
 
-export default SupplierAdd;
+export default SupplierEdit;

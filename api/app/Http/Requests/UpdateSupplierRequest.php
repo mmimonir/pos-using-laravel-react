@@ -11,7 +11,7 @@ class UpdateSupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class UpdateSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'address' => 'required|string|min:3|max:255',
+            'area_id' => 'required|numeric',
+            'district_id' => 'required|numeric',
+            'division_id' => 'required|numeric',
+            'email' => 'required|email',
+            'name' => 'required|min:3|max:255',
+            'details' => 'max:1000',
+            'landmark' => 'required',
+            'phone' => 'required|numeric',
         ];
     }
 }

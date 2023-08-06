@@ -38,7 +38,7 @@ class ImageUploadManager
         $path_thumb = null,
         $width_thumb = 0,
         $height_thumb = 0,
-        $existing_photo = null
+        $existing_photo = ''
     ) {
         if (!empty($existing_photo)) {
             self::deletePhoto($path, $existing_photo);

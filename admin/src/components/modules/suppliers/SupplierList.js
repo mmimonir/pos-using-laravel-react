@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Loader from "../../partials/miniComponent/Loader";
 import NoDataFound from "../../partials/miniComponent/NoDataFound";
+import SupplierDetailsModal from "./partials/SupplierDetailsModal";
 
 const SupplierList = () => {
   const [input, setInput] = useState({
@@ -292,12 +293,12 @@ const SupplierList = () => {
                     size={""}
                     photo={modalPhoto}
                   />
-                  <CategoryDetailsModal
+                  <SupplierDetailsModal
                     show={modalShow}
                     onHide={() => setModalShow(false)}
                     title={"Supplier Details"}
                     size={""}
-                    category={supplier}
+                    supplier={supplier}
                   />
                 </div>
               )}

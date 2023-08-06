@@ -32,7 +32,6 @@ class StoreSupplierRequest extends FormRequest
             'landmark' => 'required',
             'logo' => 'required',
             'phone' => 'required|numeric',
-
         ];
     }
 }
