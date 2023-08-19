@@ -5,3 +5,6 @@ php artisan db:seed AdminSeeder
 php artisan make:resource BrandListResource
 php artisan make:resource BrandEditResource
 php artisan migrate:rollback
+
+TODO
+Class 16 Attributes table has some problem. User id not added.
