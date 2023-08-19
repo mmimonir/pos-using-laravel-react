@@ -16,6 +16,7 @@ import BrandEdit from "../modules/brand/BrandEdit";
 import SupplierAdd from "../modules/suppliers/SupplierAdd";
 import SupplierList from "../modules/suppliers/SupplierList";
 import SupplierEdit from "../modules/suppliers/SupplierEdit";
+import ProductAttributes from "../modules/productAttribute/ProductAttributes";
 
 const ProjectRouter = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const ProjectRouter = createBrowserRouter([
       {
         path: "/supplier/edit/:id",
         element: <SupplierEdit />,
+      },
+      {
+        path: "/product-attributes",
+        element: <ProductAttributes />,
       },
       {
         path: "/error-500",

@@ -14,6 +14,7 @@ const BrandAdd = () => {
   const [input, setInput] = useState({ status: 1 });
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const handleInput = (e) => {
     if (e.target.name === "name") {
       let slug = e.target.value.toLowerCase().replaceAll(" ", "-");

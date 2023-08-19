@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{
     AreaController,
+    AttributeController,
     AuthController,
     BrandController,
     CategoryController,
@@ -40,4 +41,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("sub-category", SubCategoryController::class);
     Route::apiResource("brand", BrandController::class);
     Route::apiResource("supplier", SupplierController::class);
+    Route::apiResource("attribute", AttributeController::class);
 });
