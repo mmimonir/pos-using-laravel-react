@@ -21,6 +21,8 @@ const ProductAttributes = () => {
   const [startFrom, setStartFrom] = useState(1);
   const [activePage, setActivePage] = useState(1);
   const [modalTitle, setModalTitle] = useState("Add");
+  const [valueModalTitle, setValueModalTitle] = useState("Add");
+  const [valueModalShow, setValueModalShow] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
   const handleInput = (e) => {
@@ -28,6 +30,40 @@ const ProductAttributes = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const handleValueCreateModal = (id) => {
+    setValueModalTitle("Add");
+    setValueModalShow(true);
+    setInput({ status: 1, attribute_id: id });
+  };
+
+  const handleValueCreate = () => {
+    setIsLoading(true);
+    axiosInstance
+      .post(`${Constants.BASE_URL}/value`, input)
+      .then((res) => {
+        Swal.fire({
+          position: "top-end",
+          icon: res.data.cls,
+          title: res.data.msg,
+          showConfirmButton: false,
+          toast: true,
+          timer: 1500,
+        });
+        setIsLoading(false);
+        setErrors([]);
+        setInput({ status: 1 });
+        setModalShow(false);
+        getAttributes();
+      })
+      .catch((errors) => {
+        console.log(errors);
+        setIsLoading(false);
+        if (errors.response.status === 422) {
+          setErrors(errors.response.data.errors);
+        }
+      });
   };
 
   const getAttributes = () => {
@@ -193,6 +229,7 @@ const ProductAttributes = () => {
                           <tr>
                             <th>SL</th>
                             <th>Name</th>
+                            <th>Value</th>
                             <th>Status</th>
                             <th>Created By</th>
                             <th>Date Time</th>
@@ -205,6 +242,45 @@ const ProductAttributes = () => {
                               <tr key={index}>
                                 <td>{startFrom + index}</td>
                                 <td>{attribute.name}</td>
+                                <td className={"w-225"}>
+                                  <div className={"value-container-parent"}>
+                                    {attribute.value != undefined
+                                      ? attribute.value.map(
+                                          (value, valIndex) => (
+                                            <div className={"value-container"}>
+                                              {value.name}
+                                              <div className={"value-buttons"}>
+                                                <button className="bg-info">
+                                                  <i
+                                                    className={`fa-solid fa-eye`}
+                                                  ></i>
+                                                </button>
+                                                <button className="bg-warning">
+                                                  <i
+                                                    className={`fa-solid fa-edit`}
+                                                  ></i>
+                                                </button>
+                                                <button className="bg-danger">
+                                                  <i
+                                                    className={`fa-solid fa-trash`}
+                                                  ></i>
+                                                </button>
+                                              </div>
+                                            </div>
+                                          )
+                                        )
+                                      : null}
+                                  </div>
+
+                                  <button
+                                    onClick={() =>
+                                      handleValueCreateModal(attribute.id)
+                                    }
+                                    className={"small-button"}
+                                  >
+                                    <i className={`fa-solid fa-plus`} />
+                                  </button>
+                                </td>
                                 <td>{attribute.status}</td>
                                 <td>{attribute.created_by}</td>
                                 <td>
@@ -310,6 +386,62 @@ const ProductAttributes = () => {
             }
           >
             {modalTitle} Attribute
+          </button>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        centered
+        show={valueModalShow}
+        onHide={() => setValueModalShow(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {modalTitle} Attribute Value
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <label className="w-100">
+            <p>Name</p>
+            <input
+              className={
+                errors.name !== undefined
+                  ? "form-control mt-2 is-invalid"
+                  : "form-control mt-2"
+              }
+              name={"name"}
+              type={"text"}
+              value={input.name}
+              onChange={handleInput}
+              placeholder="Enter Attribute Name"
+            />
+            {errors.name && <ErrorMsg errorMsg={errors.name[0]} />}
+          </label>
+          <label className="w-100 mt-4">
+            <p>Status</p>
+            <select
+              className={
+                errors.status !== undefined
+                  ? "form-select mt-2 is-invalid"
+                  : "form-select mt-2"
+              }
+              name={"status"}
+              value={input.status}
+              onChange={handleInput}
+              placeholder="Enter brand status"
+            >
+              <option disabled={true} value={""}>
+                Select Status
+              </option>
+              <option value={1}>Active</option>
+              <option value={0}>Inactive</option>
+            </select>
+            {errors.status && <ErrorMsg errorMsg={errors.status[0]} />}
+          </label>
+          <button
+            className={"btn theme-button mt-4"}
+            onClick={handleValueCreate}
+          >
+            {modalTitle} Value
           </button>
         </Modal.Body>
       </Modal>

@@ -31,3 +31,64 @@
     }
   }
 }
+
+.small-button {
+  border: none;
+  background: $theme-color;
+  border-radius: 5px;
+  padding: 2px 6px;
+  color: white;
+  @include transition;
+  margin-left: 2px;
+  &:hover {
+    background: $theme-color-light;
+  }
+}
+.w-225 {
+  // width: 225px;
+  width: 0;
+}
+.value-container-parent {
+  width: 312px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .value-container {
+    position: relative;
+    width: 100px;
+    background: $theme-color;
+    margin: 2px;
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+    font-weight: bolder;
+    cursor: pointer;
+    &:hover {
+      .value-buttons {
+        display: block;
+        background: $theme-color;
+        border-radius: 5px;
+      }
+    }
+    .value-buttons {
+      @include center;
+      @include transition;
+      width: 100px;
+      display: none;
+      button {
+        border: 0;
+        padding: 0px 6px 0px 6px;
+        font-size: 13px;
+        color: $white;
+        border-radius: 3px;
+        line-height: 24px;
+        @include transition;
+        margin: 1px;
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+}

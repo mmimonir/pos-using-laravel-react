@@ -3,6 +3,7 @@
 use App\Http\Controllers\{
     AreaController,
     AttributeController,
+    AttributeValueController,
     AuthController,
     BrandController,
     CategoryController,
@@ -12,6 +13,7 @@ use App\Http\Controllers\{
     SupplierController
 };
 use App\Manager\ScriptManager;
+use App\Models\AttributeValue;
 use App\Models\District;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,4 +44,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("brand", BrandController::class);
     Route::apiResource("supplier", SupplierController::class);
     Route::apiResource("attribute", AttributeController::class);
+    Route::apiResource("value", AttributeValueController::class);
 });
