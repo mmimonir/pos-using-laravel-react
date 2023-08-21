@@ -8,6 +8,7 @@ import ErrorMsg from "../../utils/ErrorMsg";
 import { Link } from "react-router-dom";
 import NoDataFound from "../../partials/miniComponent/NoDataFound";
 import Loader from "../../partials/miniComponent/Loader";
+import Pagination from "react-js-pagination";
 
 const ProductAttributes = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -25,17 +26,14 @@ const ProductAttributes = () => {
   const [valueModalShow, setValueModalShow] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
 
+  const [modalValue, setModalValue] = useState([]);
+  const [modalValueShow, setModalValueShow] = useState(false);
+
   const handleInput = (e) => {
     setInput((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-  };
-
-  const handleValueCreateModal = (id) => {
-    setValueModalTitle("Add");
-    setValueModalShow(true);
-    setInput({ status: 1, attribute_id: id });
   };
 
   const handleValueCreate = () => {
@@ -54,7 +52,7 @@ const ProductAttributes = () => {
         setIsLoading(false);
         setErrors([]);
         setInput({ status: 1 });
-        setModalShow(false);
+        setValueModalShow(false);
         getAttributes();
       })
       .catch((errors) => {
@@ -197,6 +195,100 @@ const ProductAttributes = () => {
     });
   };
 
+  const handleValueDetailsModal = (value) => {
+    setModalValue(value);
+    setModalValueShow(true);
+  };
+
+  const handleValueDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will not be able to recover this Attribute Value!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, keep it",
+    }).then((result) => {
+      setIsLoading(true);
+      if (result.isConfirmed) {
+        axiosInstance
+          .delete(`${Constants.BASE_URL}/value/${id}`)
+          .then((res) => {
+            setIsLoading(false);
+            Swal.fire({
+              position: "top-end",
+              icon: res.data.cls,
+              title: res.data.msg,
+              showConfirmButton: false,
+              toast: true,
+              timer: 1500,
+            });
+            getAttributes();
+          })
+          .catch((errors) => {
+            console.log(errors);
+            setIsLoading(false);
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        setIsLoading(false);
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Cancelled",
+          showConfirmButton: false,
+          toast: true,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
+  const handleValueCreateModal = (id) => {
+    setValueModalTitle("Add");
+    setValueModalShow(true);
+    setIsEditMode(false);
+    setInput({ status: 1, attribute_id: id });
+  };
+
+  const handleValueEditModal = (value) => {
+    setIsEditMode(true);
+    setValueModalShow(true);
+    setValueModalTitle("Update");
+    setInput({
+      status: value.original_status,
+      name: value.name,
+      id: value.id,
+    });
+  };
+
+  const handleValueEdit = () => {
+    setIsLoading(true);
+    axiosInstance
+      .put(`${Constants.BASE_URL}/value/${input.id}`, input)
+      .then((res) => {
+        Swal.fire({
+          position: "top-end",
+          icon: res.data.cls,
+          title: res.data.msg,
+          showConfirmButton: false,
+          toast: true,
+          timer: 1500,
+        });
+        setIsLoading(false);
+        setErrors([]);
+        setInput({ status: 1 });
+        setValueModalShow(false);
+        getAttributes();
+      })
+      .catch((errors) => {
+        console.log(errors);
+        setIsLoading(false);
+        if (errors.response.status === 422) {
+          setErrors(errors.response.data.errors);
+        }
+      });
+  };
+
   useEffect(() => {
     getAttributes();
   }, []);
@@ -250,17 +342,34 @@ const ProductAttributes = () => {
                                             <div className={"value-container"}>
                                               {value.name}
                                               <div className={"value-buttons"}>
-                                                <button className="bg-info">
+                                                <button
+                                                  onClick={() =>
+                                                    handleValueDetailsModal(
+                                                      value
+                                                    )
+                                                  }
+                                                  className="bg-info"
+                                                >
                                                   <i
                                                     className={`fa-solid fa-eye`}
                                                   ></i>
                                                 </button>
-                                                <button className="bg-warning">
+                                                <button
+                                                  onClick={() =>
+                                                    handleValueEditModal(value)
+                                                  }
+                                                  className="bg-warning"
+                                                >
                                                   <i
                                                     className={`fa-solid fa-edit`}
                                                   ></i>
                                                 </button>
-                                                <button className="bg-danger">
+                                                <button
+                                                  onClick={() =>
+                                                    handleValueDelete(value.id)
+                                                  }
+                                                  className="bg-danger"
+                                                >
                                                   <i
                                                     className={`fa-solid fa-trash`}
                                                   ></i>
@@ -330,6 +439,23 @@ const ProductAttributes = () => {
                 </div>
               </div>
             </div>
+            <div className="card-footer">
+              <nav className={"pagination-sm"}>
+                <Pagination
+                  activePage={activePage}
+                  itemsCountPerPage={itemsCountPerPage}
+                  totalItemsCount={totalItemsCount}
+                  pageRangeDisplayed={2}
+                  onChange={getAttributes}
+                  itemClass="page-item"
+                  linkClass="page-link"
+                  nextPageText={"Next"}
+                  prevPageText={"Prev"}
+                  firstPageText={"First"}
+                  lastPageText={"Last"}
+                />
+              </nav>
+            </div>
           </div>
         </div>
       </div>
@@ -396,7 +522,7 @@ const ProductAttributes = () => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {modalTitle} Attribute Value
+            {valueModalTitle} Attribute Value
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -439,10 +565,51 @@ const ProductAttributes = () => {
           </label>
           <button
             className={"btn theme-button mt-4"}
-            onClick={handleValueCreate}
+            onClick={isEditMode ? handleValueEdit : handleValueCreate}
           >
-            {modalTitle} Value
+            {valueModalTitle} Value
           </button>
+        </Modal.Body>
+      </Modal>
+      <Modal
+        centered
+        show={modalValueShow}
+        onHide={() => setModalValueShow(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Value Details
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <table className={"table table-bordered table-hover table-striped"}>
+            <tbody>
+              <tr>
+                <th>ID</th>
+                <td>{modalValue.id}</td>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <td>{modalValue.name}</td>
+              </tr>
+              <tr>
+                <th>Status</th>
+                <td>{modalValue.status}</td>
+              </tr>
+              <tr>
+                <th>Created By</th>
+                <td>{modalValue.created_by}</td>
+              </tr>
+              <tr>
+                <th>Created at</th>
+                <td>{modalValue.created_at}</td>
+              </tr>
+              <tr>
+                <th>Updated at</th>
+                <td>{modalValue.updated_at}</td>
+              </tr>
+            </tbody>
+          </table>
         </Modal.Body>
       </Modal>
     </>

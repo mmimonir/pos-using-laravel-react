@@ -40,34 +40,27 @@ class AttributeValueController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(AttributeValue $attributeValue)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(AttributeValue $attributeValue)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAttributeValueRequest $request, AttributeValue $attributeValue)
+    public function update(UpdateAttributeValueRequest $request, AttributeValue $value)
     {
-        //
+        $value_data = $request->all();
+
+        $value->update($value_data);
+
+        return response()->json([
+            'msg' => 'Value Updated successfully', 'cls' => 'success'
+        ],);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AttributeValue $attributeValue)
+    public function destroy(AttributeValue $value)
     {
-        //
+        $value->delete();
+        return response()->json([
+            'msg' => 'Attribute Value deleted successfully', 'cls' => 'warning'
+        ],);
     }
 }
