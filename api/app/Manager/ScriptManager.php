@@ -3,6 +3,7 @@
 namespace App\Manager;
 
 use App\Models\Area;
+use App\Models\Country;
 use App\Models\District;
 use App\Models\Division;
 use Illuminate\Support\Facades\Http;
@@ -44,6 +45,18 @@ class ScriptManager
                     }
                 }
             }
+        }
+    }
+
+    public function getCountry()
+    {
+        $url = 'https://restcountries.com/v3.1/all';
+        $response = Http::get($url);
+        $response = json_decode($response->body(), true);
+        foreach ($response as $country) {
+            $country_data['name'] = $country['name']['common'];
+            // dd($country_data);
+            Country::create($country_data);
         }
     }
 }

@@ -11,6 +11,7 @@ class Brand extends Model
 
     public const IMAGE_UPLOAD_PATH = 'images/uploads/brand/';
     public const THUMB_IMAGE_UPLOAD_PATH = 'images/uploads/brand_thumb/';
+    public const STATUS_ACTIVE = 1;
 
     protected $fillable =
     [
@@ -43,5 +44,10 @@ class Brand extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getBrandNameAndId()
+    {
+        return self::query()->select('id', 'name')->where('status', self::STATUS_ACTIVE)->get();
     }
 }

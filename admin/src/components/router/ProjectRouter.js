@@ -17,6 +17,7 @@ import SupplierAdd from "../modules/suppliers/SupplierAdd";
 import SupplierList from "../modules/suppliers/SupplierList";
 import SupplierEdit from "../modules/suppliers/SupplierEdit";
 import ProductAttributes from "../modules/productAttribute/ProductAttributes";
+import AddProduct from "../modules/product/AddProduct";
 
 const ProjectRouter = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const ProjectRouter = createBrowserRouter([
       {
         path: "/product-attributes",
         element: <ProductAttributes />,
+      },
+      {
+        path: "/product/create",
+        element: <AddProduct />,
       },
       {
         path: "/error-500",

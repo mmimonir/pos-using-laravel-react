@@ -7,6 +7,7 @@ use App\Http\Controllers\{
     AuthController,
     BrandController,
     CategoryController,
+    CountryController,
     DistrictController,
     DivisionController,
     SubCategoryController,
@@ -29,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get("test", [ScriptManager::class, 'getLocationData']);
+// Route::get("test", [ScriptManager::class, 'getCountry']);
 Route::post("login", [AuthController::class, 'login']);
 
 Route::get('divisions', [DivisionController::class, 'index']);
@@ -39,6 +40,9 @@ Route::get('areas/{id}', [AreaController::class, 'index']);
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post("logout", [AuthController::class, 'logout']);
     Route::get("get-category-list", [CategoryController::class, 'get_category_list']);
+    Route::get("get-sub-category-list/{category_id}", [SubCategoryController::class, 'get_sub_category_list']);
+    Route::get("get-brand-list", [BrandController::class, 'get_brand_list']);
+    Route::get("get-country-list", [CountryController::class, 'get_country_list']);
     Route::apiResource("category", CategoryController::class);
     Route::apiResource("sub-category", SubCategoryController::class);
     Route::apiResource("brand", BrandController::class);
