@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get("test", [ScriptManager::class, 'getLocationData']);
 // Route::get("test", [ScriptManager::class, 'getCountry']);
 Route::post("login", [AuthController::class, 'login']);
 

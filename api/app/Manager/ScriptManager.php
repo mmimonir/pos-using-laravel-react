@@ -19,13 +19,14 @@ class ScriptManager
         // dd($division['module']);
 
         foreach ($divisions['module'] as $key => $division) {
-            if ($key == 4 || $key == 5 || $key == 6 || $key == 7) {
+            if ($key == 0 || $key == 1 || $key == 2 || $key == 3 || $key == 4 || $key == 5 || $key == 6 || $key == 7) {
                 $division_data['name'] = $division['name'];
                 $division_data['original_id'] = $division['id'];
                 $created_div = Division::create($division_data);
                 $dist_url = 'https://member.daraz.com.bd/locationtree/api/getSubAddressList?countryCode=BD&addressId=' . $division['id'] . '&page=addressEdit';
                 $dist_response = Http::get($dist_url);
                 $districts = json_decode($dist_response->body(), true);
+                echo $division['name'] . ' done\n';
 
                 foreach ($districts['module'] as $district) {
                     $district_data['name'] = $district['name'];
@@ -58,5 +59,6 @@ class ScriptManager
             // dd($country_data);
             Country::create($country_data);
         }
+        echo 'done';
     }
 }
