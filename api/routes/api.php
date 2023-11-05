@@ -10,6 +10,7 @@ use App\Http\Controllers\{
     CountryController,
     DistrictController,
     DivisionController,
+    ProductController,
     SubCategoryController,
     SupplierController
 };
@@ -52,4 +53,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("supplier", SupplierController::class);
     Route::apiResource("attribute", AttributeController::class);
     Route::apiResource("value", AttributeValueController::class);
+    Route::apiResource("product", ProductController::class);
 });

@@ -183,6 +183,7 @@ const AddProduct = () => {
     getSuppliers();
     getAttributes();
   }, []);
+
   useEffect(() => {
     setInput((prevState) => ({ ...prevState, attributes: attribute_input }));
   }, [attribute_input]);
@@ -827,7 +828,6 @@ const AddProduct = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className="col-md-12">
                   <label className={"w-100 mt-4"}>
                     <p>Description</p>
