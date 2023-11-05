@@ -58,4 +58,10 @@ class AttributeController extends Controller
             'msg' => 'Attribute deleted successfully', 'cls' => 'warning'
         ],);
     }
+
+    public function get_attribute_list()
+    {
+        $attributes = (new Attribute())->getAttributeListWithValue();
+        return response()->json($attributes);
+    }
 }

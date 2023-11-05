@@ -75,6 +75,7 @@ class SupplierController extends Controller
             return response()->json([
                 'msg' => 'Something is going wrong',
                 'cls' => 'warning',
+                'error' => $e->getMessage(),
                 'flag' => true
             ]);
         }
@@ -152,5 +153,11 @@ class SupplierController extends Controller
         (new Address())->deleteAddressBySupplerId($supplier);
         $supplier->delete();
         return response()->json(['msg' => 'Supplier Deleted successfully', 'cls' => 'warning']);
+    }
+
+    public function get_supplier_list()
+    {
+        $suppliers = (new Supplier())->getSupplierSelectList();
+        return response()->json($suppliers);
     }
 }

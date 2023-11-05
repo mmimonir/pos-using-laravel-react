@@ -28,4 +28,12 @@ class Attribute extends Model
     {
         return $this->hasMany(AttributeValue::class);
     }
+
+    public function getAttributeListWithValue()
+    {
+        return self::query()
+            ->select('id', 'name')
+            ->with('value:id,name,attribute_id')
+            ->get();
+    }
 }

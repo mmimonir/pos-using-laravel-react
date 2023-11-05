@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->morphs('addressable');
             $table->string('address')->nullable();
+            $table->string('landmark')->nullable();
             $table->foreignId('division_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('district_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('area_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();

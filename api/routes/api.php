@@ -44,6 +44,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get("get-sub-category-list/{category_id}", [SubCategoryController::class, 'get_sub_category_list']);
     Route::get("get-brand-list", [BrandController::class, 'get_brand_list']);
     Route::get("get-country-list", [CountryController::class, 'get_country_list']);
+    Route::get("get-supplier-list", [SupplierController::class, 'get_supplier_list']);
+    Route::get("get-attribute-list", [AttributeController::class, 'get_attribute_list']);
     Route::apiResource("category", CategoryController::class);
     Route::apiResource("sub-category", SubCategoryController::class);
     Route::apiResource("brand", BrandController::class);

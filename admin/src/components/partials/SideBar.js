@@ -22,9 +22,9 @@ const SideBar = () => {
               className="nav-link collapsed"
               href="#"
               data-bs-toggle="collapse"
-              data-bs-target="#collapseLayouts"
+              data-bs-target="#productLayouts"
               aria-expanded="false"
-              aria-controls="collapseLayouts"
+              aria-controls="productLayouts"
             >
               <div className="sb-nav-link-icon">
                 <i className="fas fa-columns"></i>
@@ -36,7 +36,7 @@ const SideBar = () => {
             </a>
             <div
               className="collapse"
-              id="collapseLayouts"
+              id="productLayouts"
               aria-labelledby="headingOne"
               data-bs-parent="#sidenavAccordion"
             >
