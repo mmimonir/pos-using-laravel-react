@@ -153,7 +153,7 @@ const AddProduct = () => {
           toast: true,
           timer: 1500,
         });
-        navigate("/product");
+        navigate(`/product/photo/${res.data.product_id}`);
         // console.log(res.data);
       })
       .catch((errors) => {
@@ -862,7 +862,7 @@ const AddProduct = () => {
                           dangerouslySetInnerHTML={{
                             __html: isLoading
                               ? '<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...'
-                              : "Add Product",
+                              : "Next",
                           }}
                         />
                       </div>

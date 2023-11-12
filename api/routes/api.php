@@ -11,6 +11,7 @@ use App\Http\Controllers\{
     DistrictController,
     DivisionController,
     ProductController,
+    ProductPhotoController,
     SubCategoryController,
     SupplierController
 };
@@ -47,6 +48,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get("get-country-list", [CountryController::class, 'get_country_list']);
     Route::get("get-supplier-list", [SupplierController::class, 'get_supplier_list']);
     Route::get("get-attribute-list", [AttributeController::class, 'get_attribute_list']);
+    Route::post("product-photo-upload/{id}", [ProductPhotoController::class, 'store']);
     Route::apiResource("category", CategoryController::class);
     Route::apiResource("sub-category", SubCategoryController::class);
     Route::apiResource("brand", BrandController::class);
@@ -54,4 +56,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("attribute", AttributeController::class);
     Route::apiResource("value", AttributeValueController::class);
     Route::apiResource("product", ProductController::class);
+    Route::apiResource("photo", ProductPhotoController::class);
 });

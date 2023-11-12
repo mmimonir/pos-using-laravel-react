@@ -9,7 +9,7 @@ class ProductAttribute extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['product_id', 'attribute_id', 'attribute_value_id'];
 
     public function storeAttributeData($input, Product $product)
     {

@@ -47,10 +47,15 @@ class ProductController extends Controller
                 (new ProductSpecification())->storeProductSpecification($request->input('specifications'), $product);
             }
             DB::commit();
-            return response()->json(['msg' => 'Product created successfully']);
+            return response()->json([
+                'msg' => 'Product created successfully',
+                'cls' => 'success',
+                'product_id' => $product->id
+            ]);
         } catch (\Throwable $e) {
+            info('PRODUCT_SAVE_FAILED', ['data' => $request->all(), 'error' => $e->getMessage()]);
             DB::rollBack();
-            return response()->json(['msg' => $e->getMessage()]);
+            return response()->json(['msg' => $e->getMessage(), 'cls' => 'warning']);
         }
     }
 
