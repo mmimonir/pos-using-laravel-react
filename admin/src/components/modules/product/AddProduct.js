@@ -153,7 +153,10 @@ const AddProduct = () => {
           toast: true,
           timer: 1500,
         });
-        navigate(`/product/photo/${res.data.product_id}`);
+        if (res.data.product_id != "undefined") {
+          navigate(`/product/photo/${res.data.product_id}`);
+        }
+
         // console.log(res.data);
       })
       .catch((errors) => {

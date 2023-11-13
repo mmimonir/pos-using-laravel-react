@@ -5,24 +5,29 @@ import $ from "jquery";
 import Swal from "sweetalert2";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AddProductPhoto() {
   const params = useParams();
   const [photos, setPhotos] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const navigate = useNavigate();
 
   const handlePhotoUpload = () => {
     setIsLoading(true);
     axiosInstance
-      .post(`${Constants.BASE_URL}/product-photo-upload/${params.id}`, photos, {
-        onUploadProgress: (progressEvent) => {
-          const { loaded, total } = progressEvent;
-          let percent = Math.floor((loaded * 100) / total);
-          setProgress(percent);
-        },
-      })
+      .post(
+        `${Constants.BASE_URL}/product-photo-upload/${params.id}`,
+        { photos },
+        {
+          onUploadProgress: (progressEvent) => {
+            const { loaded, total } = progressEvent;
+            let percent = Math.floor((loaded * 100) / total);
+            setProgress(percent);
+          },
+        }
+      )
       .then((res) => {
         setIsLoading(false);
         Swal.fire({
@@ -33,7 +38,7 @@ function AddProductPhoto() {
           toast: true,
           timer: 1500,
         });
-        // navigate("/brand");
+        navigate("/product");
         // console.log(res.data);
       });
   };

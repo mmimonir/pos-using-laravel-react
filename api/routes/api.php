@@ -56,5 +56,4 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("attribute", AttributeController::class);
     Route::apiResource("value", AttributeValueController::class);
     Route::apiResource("product", ProductController::class);
-    Route::apiResource("photo", ProductPhotoController::class);
 });

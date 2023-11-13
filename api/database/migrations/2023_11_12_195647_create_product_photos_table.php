@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('product_photos', function (Blueprint $table) {
             $table->id();
+            $table->string('photo')->nullable();
+            $table->tinyInteger('is_primary')->nullable();
+            $table->foreignId('product_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
