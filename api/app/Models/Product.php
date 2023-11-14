@@ -32,6 +32,9 @@ class Product extends Model
         'updated_by_id'
     ];
 
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE = 0;
+
     public function storeProduct($input, $auth_id)
     {
         return self::create($this->prepareData($input, $auth_id));

@@ -20,16 +20,11 @@ const ProductList = () => {
     search: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [product, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
   const [itemsCountPerPage, setItemsCountPerPage] = useState(0);
   const [totalItemsCount, setTotalItemsCount] = useState(1);
   const [startFrom, setStartFrom] = useState(1);
   const [activePage, setActivePage] = useState(1);
-
-  const [categories, setCategories] = useState([]);
-  const [modalShow, setModalShow] = useState(false);
-  const [modalPhotoShow, setModalPhotoShow] = useState(false);
-  const [modalPhoto, setModalPhoto] = useState("");
 
   const handleInput = (e) => {
     setInput((prevState) => ({
@@ -46,12 +41,12 @@ const ProductList = () => {
       )
       .then((res) => {
         console.log(res.data.data);
-        // setCategories(res.data.data);
-        // setItemsCountPerPage(res.data.meta.per_page);
-        // setTotalItemsCount(res.data.meta.total);
-        // setStartFrom(res.data.meta.from);
-        // setActivePage(res.data.meta.current_page);
-        // setIsLoading(false);
+        setProducts(res.data.data);
+        setItemsCountPerPage(res.data.meta.per_page);
+        setTotalItemsCount(res.data.meta.total);
+        setStartFrom(res.data.meta.from);
+        setActivePage(res.data.meta.current_page);
+        setIsLoading(false);
       });
   };
 
@@ -194,21 +189,22 @@ const ProductList = () => {
                 <Loader />
               ) : (
                 <div className="table-responsive soft-landing">
-                  <table className="my-table table table-hover table-striped table-bordered">
+                  <table className="my-table table-sm product-table table table-hover table-striped table-bordered">
                     <thead>
                       <tr>
                         <th>SL</th>
-                        <th>Name / Slug</th>
-                        <th>Serial / Status</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Category</th>
                         <th>Photo</th>
-                        <th>Created By</th>
                         <th>Date Time</th>
                         <th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {Object.keys(categories).length > 0 ? (
-                        categories.map((product, index) => (
+                      {Object.keys(products).length > 0 ? (
+                        products.map((product, index) => (
                           <tr key={index}>
                             <td>{startFrom + index}</td>
                             <td>
@@ -218,23 +214,75 @@ const ProductList = () => {
                               <p className={"text-success"}>
                                 Slug: {product.slug}
                               </p>
+                              <p className={"text-theme"}>
+                                {product.attributes != undefined &&
+                                Object.keys(product.attributes).length > 0
+                                  ? product.attributes.map(
+                                      (attribute, index) => (
+                                        <p>
+                                          <small key={index}>
+                                            {attribute.name} : {attribute.value}
+                                          </small>
+                                        </p>
+                                      )
+                                    )
+                                  : null}
+                              </p>
                             </td>
                             <td>
                               <p className={"text-theme"}>
-                                Serial: {product.serial}
+                                Price: {product.price}
                               </p>
                               <p className={"text-success"}>
+                                Discount : {product.discount_percent} +
+                                {product.discount_fixed}
+                              </p>
+                              <p className={"text-theme"}>
+                                Cost : {product.cost}
+                              </p>
+                              <p className={"text-success"}>
+                                Discount Start : {product.discount_start}
+                              </p>
+                              <p className={"text-theme"}>
+                                Discount End : {product.discount_end}
+                              </p>
+                            </td>
+                            <td>
+                              <p className={"text-theme"}>
                                 Status: {product.status}
+                              </p>
+                              <p className={"text-success"}>
+                                SKU : {product.sku}
+                              </p>
+                              <p className={"text-theme"}>
+                                Stock : {product.stock}
+                              </p>
+                            </td>
+                            <td>
+                              <p className={"text-theme"}>
+                                Category: {product.category}
+                              </p>
+                              <p className={"text-success"}>
+                                Sub Category : {product.sub_category}
+                              </p>
+                              <p className={"text-theme"}>
+                                Brand : {product.brand}
+                              </p>
+                              <p className={"text-success"}>
+                                Origin : {product.country}
+                              </p>
+                              <p className={"text-theme"}>
+                                Supplier : {product.supplier}
                               </p>
                             </td>
                             <td>
                               <img
-                                src={product.logo}
+                                src={product.primary_photo}
                                 alt={product.name}
                                 className={"img-thumbnail table-image"}
                               />
                             </td>
-                            <td>{product.created_by}</td>
+
                             <td>
                               <p className={"text-theme"}>
                                 <small>Created: {product.created_at}</small>
@@ -242,23 +290,33 @@ const ProductList = () => {
                               <p className={"text-success"}>
                                 <small>Updated: {product.updated_at}</small>
                               </p>
+                              <p className={"text-theme"}>
+                                <small>Created By: {product.created_by}</small>
+                              </p>
+                              <p className={"text-success"}>
+                                <small>Updated By: {product.updated_by}</small>
+                              </p>
                             </td>
                             <td>
-                              <button className={"btn btn-sm btn-info my-1"}>
-                                <i className={"fa-solid fa-eye"}></i>
-                              </button>
-                              <Link
-                                to={`/product/edit/${product.id}}`}
-                                className={"btn btn-sm btn-warning my-1 mx-1"}
-                              >
-                                <i className={"fa-solid fa-edit"}></i>
-                              </Link>
-                              <button
-                                onClick={() => handleProductDelete(product.id)}
-                                className={"btn btn-sm btn-danger my-1"}
-                              >
-                                <i className={"fa-solid fa-trash"}></i>
-                              </button>
+                              <div className="w-70">
+                                <button className={"btn btn-sm btn-info"}>
+                                  <i className={"fa-solid fa-eye"}></i>
+                                </button>
+                                <Link
+                                  to={`/product/edit/${product.id}}`}
+                                  className={"btn btn-sm btn-warning my-1"}
+                                >
+                                  <i className={"fa-solid fa-edit"}></i>
+                                </Link>
+                                <button
+                                  onClick={() =>
+                                    handleProductDelete(product.id)
+                                  }
+                                  className={"btn btn-sm btn-danger"}
+                                >
+                                  <i className={"fa-solid fa-trash"}></i>
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))

@@ -6,6 +6,7 @@ const GlobalFunction = {
     // localStorage.removeItem("photo");
     // localStorage.removeItem("phone");
     localStorage.removeItem("items");
+    window.location.href = window.location.origin;
   },
 };
 

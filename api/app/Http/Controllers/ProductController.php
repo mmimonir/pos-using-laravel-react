@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\ProductSpecification;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Resources\ProductListResource;
 
 class ProductController extends Controller
 {
@@ -17,7 +18,8 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        return $product = (new Product())->getProductList($request);
+        $product = (new Product())->getProductList($request);
+        return ProductListResource::collection($product);
     }
 
     /**
