@@ -12,6 +12,7 @@ use App\Http\Controllers\{
     DivisionController,
     ProductController,
     ProductPhotoController,
+    ShopController,
     SubCategoryController,
     SupplierController
 };
@@ -56,4 +57,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("attribute", AttributeController::class);
     Route::apiResource("value", AttributeValueController::class);
     Route::apiResource("product", ProductController::class);
+    Route::apiResource("shop", ShopController::class);
 });
