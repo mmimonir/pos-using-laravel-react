@@ -84,6 +84,37 @@ const SideBar = () => {
                 </Link>
               </nav>
             </div>
+            <a
+              className="nav-link collapsed"
+              href="#"
+              data-bs-toggle="collapse"
+              data-bs-target="#sales-manager"
+              aria-expanded="false"
+              aria-controls="productLayouts"
+            >
+              <div className="sb-nav-link-icon">
+                <i className="fas fa-columns"></i>
+              </div>
+              Sales Manager
+              <div className="sb-sidenav-collapse-arrow">
+                <i className="fas fa-angle-down"></i>
+              </div>
+            </a>
+            <div
+              className="collapse"
+              id="sales-manager"
+              aria-labelledby="headingOne"
+              data-bs-parent="#sidenavAccordion"
+            >
+              <nav className="sb-sidenav-menu-nested nav">
+                <Link className="nav-link" to="/sales-manager">
+                  Sales Manager List
+                </Link>
+                <Link className="nav-link" to="/sales-manager/create">
+                  Add Sales Manager
+                </Link>
+              </nav>
+            </div>
             <div className="sb-sidenav-menu-heading">Management</div>
             <a
               className="nav-link collapsed"

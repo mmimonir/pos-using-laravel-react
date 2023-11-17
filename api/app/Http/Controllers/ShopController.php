@@ -154,4 +154,10 @@ class ShopController extends Controller
         $shop->delete();
         return response()->json(['msg' => 'Shop Deleted successfully', 'cls' => 'warning']);
     }
+
+    public function get_shop_list()
+    {
+        $shops = (new Shop())->getShopListIdName();
+        return response()->json($shops);
+    }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\{
     DivisionController,
     ProductController,
     ProductPhotoController,
+    SalesManagerController,
     ShopController,
     SubCategoryController,
     SupplierController
@@ -50,6 +51,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get("get-supplier-list", [SupplierController::class, 'get_supplier_list']);
     Route::get("get-attribute-list", [AttributeController::class, 'get_attribute_list']);
     Route::post("product-photo-upload/{id}", [ProductPhotoController::class, 'store']);
+    Route::get("get-shop-list", [ShopController::class, 'get_shop_list']);
     Route::apiResource("category", CategoryController::class);
     Route::apiResource("sub-category", SubCategoryController::class);
     Route::apiResource("brand", BrandController::class);
@@ -58,4 +60,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("value", AttributeValueController::class);
     Route::apiResource("product", ProductController::class);
     Route::apiResource("shop", ShopController::class);
+    Route::apiResource("sales-manager", SalesManagerController::class);
 });
+
+
+// @Fashion123
