@@ -25,7 +25,7 @@ const Nav = () => {
           .then((res) => {
             console.log(res.data);
             GlobalFunction.logout();
-            window.location.reload();
+            // window.location.reload();
           })
           .catch((errors) => {
             GlobalFunction.logout();

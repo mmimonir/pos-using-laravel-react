@@ -76,6 +76,24 @@ const Login = () => {
                 />
                 {errors.email && <ErrorMsg errorMsg={errors.password[0]} />}
               </label>
+              <label className={"w-100 mt-4"}>
+                <p>Login As</p>
+                <select
+                  className={
+                    `form-select mt-2` + (errors.user_type && " is-invalid")
+                  }
+                  name={"user_type"}
+                  value={input.user_type}
+                  onChange={handleInput}
+                >
+                  <option>Select User Role</option>
+                  <option value={1}>Admin</option>
+                  <option value={2}>Sales Manager</option>
+                </select>
+                {errors.user_type && (
+                  <ErrorMsg errorMsg={errors.user_type[0]} />
+                )}
+              </label>
               <div className="d-grid mt-4">
                 {isLoading && <Spinner text={"Login"} />}
                 {!isLoading && (

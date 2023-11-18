@@ -42,7 +42,7 @@ Route::get('divisions', [DivisionController::class, 'index']);
 Route::get('districts/{id}', [DistrictController::class, 'index']);
 Route::get('areas/{id}', [AreaController::class, 'index']);
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => ['auth:admin']], function () {
     Route::post("logout", [AuthController::class, 'logout']);
     Route::get("get-category-list", [CategoryController::class, 'get_category_list']);
     Route::get("get-sub-category-list/{category_id}", [SubCategoryController::class, 'get_sub_category_list']);
@@ -61,6 +61,14 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource("product", ProductController::class);
     Route::apiResource("shop", ShopController::class);
     Route::apiResource("sales-manager", SalesManagerController::class);
+});
+
+Route::group(['middleware' => ['auth:admin,sales_manager']], function () {
+    Route::apiResource("product", ProductController::class)->only(['index', 'show']);
+});
+
+Route::group(['middleware' => ['auth:sales_manager']], function () {
+    // Route::apiResource("product", ProductController::class)->only(['index', 'show']);
 });
 
 

@@ -231,7 +231,12 @@ const ProductList = () => {
                             </td>
                             <td>
                               <p className={"text-theme"}>
-                                Price: {product.price}
+                                <strong>
+                                  Sell Price: {product.sell_price.price}{" "}
+                                  {product.sell_price.symbol}| Discount:{" "}
+                                  {product.sell_price.discount}{" "}
+                                  {product.sell_price.symbol}
+                                </strong>
                               </p>
                               <p className={"text-success"}>
                                 Discount : {product.discount_percent} +

@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 
 class SalesManager extends Model
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens, Notifiable;
 
     protected $fillable = [
         'bio',
@@ -86,5 +88,10 @@ class SalesManager extends Model
     public function shop()
     {
         return $this->belongsTo(Shop::class);
+    }
+
+    final public function getUserByEmailOrPhone(array $input)
+    {
+        return self::query()->where('email', $input['email'])->orWhere('phone', $input['email'])->first();
     }
 }

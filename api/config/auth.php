@@ -40,6 +40,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
+        'sales_manager' => [
+            'driver' => 'sanctum',
+            'provider' => 'sales_manager',
+        ],
+
     ],
 
     /*
@@ -63,6 +72,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'sales_manager' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\SalesManager::class,
         ],
 
         // 'users' => [
@@ -93,6 +106,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'sales_manager' => [
+            'provider' => 'sales_manager',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
