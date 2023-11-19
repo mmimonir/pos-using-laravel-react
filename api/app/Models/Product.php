@@ -86,13 +86,10 @@ class Product extends Model
                 'product_attributes',
                 'product_attributes.attributes',
                 'product_attributes.attribute_value',
-
-
             ]);
         if (!empty($input['search'])) {
             $query->where('name', 'LIKE', '%' . $input['search'] . '%')
-                ->orWhere('phone', 'LIKE', '%' . $input['search'] . '%')
-                ->orWhere('email', 'LIKE', '%' . $input['search'] . '%');
+                ->orWhere('sku', 'LIKE', '%' . $input['search'] . '%');
         }
         if (!empty($input['order_by'])) {
             $query->orderBy($input['order_by'], $input['direction'] ?? 'asc');

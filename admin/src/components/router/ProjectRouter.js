@@ -5,7 +5,6 @@ import Dashboard from "../modules/Dashboard";
 import Error500 from "../modules/Error500";
 import AddCategory from "../modules/category/AddCategory";
 import CategoryList from "../modules/category/CategoryList";
-import Loader from "../partials/miniComponent/Loader";
 import CategoryEdit from "../modules/category/CategoryEdit";
 import SubCategoryAdd from "../modules/subCategoryAdd/SubCategoryAdd";
 import SubCategoryList from "../modules/subCategoryAdd/SubCategoryList";
@@ -25,6 +24,7 @@ import ShopList from "../modules/shop/ShopList";
 import ShopEdit from "../modules/shop/ShopEdit";
 import AddSalesManager from "../modules/salesManager/AddSalesManager";
 import SalesManagerList from "../modules/salesManager/SalesManagerList";
+import OrderCreate from "../modules/order/OrderCreate";
 
 const ProjectRouter = createBrowserRouter([
   {
@@ -118,6 +118,10 @@ const ProjectRouter = createBrowserRouter([
       {
         path: "/sales-manager",
         element: <SalesManagerList />,
+      },
+      {
+        path: "/order/create",
+        element: <OrderCreate />,
       },
       {
         path: "/error-500",
