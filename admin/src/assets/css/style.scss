@@ -126,7 +126,7 @@
 }
 .details-area {
   position: absolute;
-  right: 0;
+  right: 7px;
   top: 5px;
 }
 .customer-list {
@@ -140,4 +140,23 @@
       color: $theme-color;
     }
   }
+}
+.quantity-button {
+  border: none;
+  background: $theme-color;
+  border-radius: 5px;
+  padding: 0;
+  color: white;
+  margin: 0 10px;
+  width: 25px;
+  &:disabled {
+    background: #ccc;
+  }
+}
+.order-product-container {
+  background: #f4e8ff;
+  border-radius: 5px;
+  margin: 5px 0;
+  border: 1px solid #e2c9f9;
+  box-shadow: 0 0 4px silver;
 }

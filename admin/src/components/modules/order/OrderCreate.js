@@ -29,6 +29,7 @@ const OrderCreate = () => {
     discount: 0,
     payable: 0,
     customer: "",
+    customer_id: 0,
   });
   const [order, setOrder] = useState({});
   const [modalShow, setModalShow] = useState(false);
@@ -39,10 +40,29 @@ const OrderCreate = () => {
       ...prevState,
       customer: customer.name + " " + customer.phone,
     }));
+    setOrderSummary((prevState) => ({
+      ...prevState,
+      customer_id: customer.id,
+    }));
   };
 
   const handleCustomerSearch = (e) => {
     setCustomerInput(e.target.value);
+  };
+
+  const handleIncrease = (id) => {
+    if (carts[id].quantity >= carts[id].stock) return;
+    setCarts((prevState) => ({
+      ...prevState,
+      [id]: { ...prevState[id], quantity: carts[id].quantity + 1 },
+    }));
+  };
+  const handleDecrease = (id) => {
+    if (carts[id].quantity <= 1) return;
+    setCarts((prevState) => ({
+      ...prevState,
+      [id]: { ...prevState[id], quantity: carts[id].quantity - 1 },
+    }));
   };
 
   const getCustomer = () => {
@@ -72,10 +92,23 @@ const OrderCreate = () => {
   const handleCart = (id) => {
     products.map((product, index) => {
       if (product.id === id) {
-        setCarts((prevState) => ({
-          ...prevState,
-          [id]: product,
-        }));
+        if (carts[id] == undefined) {
+          setCarts((prevState) => ({
+            ...prevState,
+            [id]: product,
+          }));
+          setCarts((prevState) => ({
+            ...prevState,
+            [id]: { ...prevState[id], quantity: 1 },
+          }));
+        } else {
+          if (carts[id].stock > carts[id].quantity) {
+            setCarts((prevState) => ({
+              ...prevState,
+              [id]: { ...prevState[id], quantity: carts[id].quantity + 1 },
+            }));
+          }
+        }
       }
     });
   };
@@ -97,20 +130,17 @@ const OrderCreate = () => {
       });
   };
 
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  useEffect(() => {
-    let items = Object.keys(carts).length;
+  const calculateOrderSummary = () => {
+    let items = 0;
     let amount = 0;
     let discount = 0;
     let payable = 0;
 
     Object.keys(carts).map((key) => {
-      amount += carts[key].original_price;
-      discount += carts[key].sell_price.discount;
-      payable += carts[key].sell_price.price;
+      amount += carts[key].original_price * carts[key].quantity;
+      discount += carts[key].sell_price.discount * carts[key].quantity;
+      payable += carts[key].sell_price.price * carts[key].quantity;
+      items += carts[key].quantity;
     });
 
     setOrderSummary({
@@ -119,6 +149,14 @@ const OrderCreate = () => {
       discount: discount,
       payable: payable,
     });
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  useEffect(() => {
+    calculateOrderSummary();
   }, [carts]);
 
   return (
@@ -142,8 +180,8 @@ const OrderCreate = () => {
                     <div className="card-header">
                       <h5>Product List</h5>
                     </div>
-                    <div className="card-body">
-                      <div className="product-search-area mb-4">
+                    <div className="card-body p-1">
+                      <div className="product-search-area mb-3 mt-2">
                         <div className="input-group">
                           <input
                             type={"search"}
@@ -164,7 +202,7 @@ const OrderCreate = () => {
                       <ul className="list-unstyled">
                         {products.map((product, index) => (
                           <div
-                            className="d-flex align-items-center py-2 border-bottom position-relative"
+                            className="d-flex align-items-center p-2 position-relative order-product-container"
                             key={index}
                           >
                             <div className="details-area">
@@ -218,9 +256,9 @@ const OrderCreate = () => {
                     <div className="card-header">
                       <h5>Cart</h5>
                     </div>
-                    <div className="card-body">
-                      <div className="order-summery">
-                        <p className={"pb-2"}>
+                    <div className="card-body p-1">
+                      <div className="order-summery mt-2">
+                        <p className={"pb-2 ms-1"}>
                           <strong>Customer: </strong>
                           <span className={"text-theme"}>
                             {orderSummary.customer}
@@ -259,7 +297,7 @@ const OrderCreate = () => {
                       </div>
                       {Object.keys(carts).map((key) => (
                         <div
-                          className="d-flex align-items-center py-2 border-bottom position-relative"
+                          className="d-flex align-items-center p-2  position-relative order-product-container"
                           key={key}
                         >
                           <div className="details-area">
@@ -300,6 +338,26 @@ const OrderCreate = () => {
                                 SKU: {carts[key].sku} | Stock:
                                 {carts[key].stock}
                               </small>
+                              <p>
+                                Quantity :
+                                <button
+                                  disabled={carts[key].quantity <= 1}
+                                  onClick={() => handleDecrease(carts[key].id)}
+                                  className={"quantity-button"}
+                                >
+                                  -
+                                </button>
+                                <span>{carts[key].quantity}</span>
+                                <button
+                                  disabled={
+                                    carts[key].quantity >= carts[key].stock
+                                  }
+                                  onClick={() => handleIncrease(carts[key].id)}
+                                  className={"quantity-button"}
+                                >
+                                  +
+                                </button>
+                              </p>
                             </p>
                           </div>
                         </div>
@@ -314,7 +372,7 @@ const OrderCreate = () => {
                         <h5>Customer List</h5>
                         <button
                           onClick={() => setModalShow(true)}
-                          className={"btn btn-sm btn-success"}
+                          className={"btn btn-sm btn-success py-0 px-2"}
                         >
                           <i className="fa-solid fa-plus" />
                         </button>
@@ -340,6 +398,11 @@ const OrderCreate = () => {
                       <ul className={"customer-list"}>
                         {customers.map((customer, index) => (
                           <li
+                            className={
+                              orderSummary.customer_id == customer.id
+                                ? "text-theme"
+                                : ""
+                            }
                             onClick={() => selectCustomer(customer)}
                             key={index}
                           >
@@ -347,6 +410,11 @@ const OrderCreate = () => {
                           </li>
                         ))}
                       </ul>
+                      <div className="d-grid mt-3">
+                        <button className={"btn theme-button"}>
+                          Place Order
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
