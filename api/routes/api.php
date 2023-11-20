@@ -8,6 +8,7 @@ use App\Http\Controllers\{
     BrandController,
     CategoryController,
     CountryController,
+    CustomerController,
     DistrictController,
     DivisionController,
     ProductController,
@@ -65,6 +66,7 @@ Route::group(['middleware' => ['auth:admin']], function () {
 
 Route::group(['middleware' => ['auth:admin,sales_manager']], function () {
     Route::apiResource("product", ProductController::class)->only(['index', 'show']);
+    Route::apiResource("customer", CustomerController::class);
 });
 
 Route::group(['middleware' => ['auth:sales_manager']], function () {

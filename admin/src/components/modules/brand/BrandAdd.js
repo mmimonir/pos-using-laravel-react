@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import React, { useState } from "react";
 import BreadCrumb from "../../partials/BreadCrumb";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ErrorMsg from "../../utils/ErrorMsg";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";

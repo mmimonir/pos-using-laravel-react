@@ -129,3 +129,15 @@
   right: 0;
   top: 5px;
 }
+.customer-list {
+  margin-top: 5px;
+  li {
+    list-style: none;
+    border-bottom: 1px solid silver;
+    padding: 3px 0;
+    cursor: pointer;
+    &:hover {
+      color: $theme-color;
+    }
+  }
+}

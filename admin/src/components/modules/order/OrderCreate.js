@@ -3,7 +3,7 @@ import BreadCrumb from "../../partials/BreadCrumb";
 import CardHeader from "../../partials/miniComponent/CardHeader";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
-import { json } from "react-router-dom";
+import AddCustomer from "../../partials/modals/AddCustomer";
 
 const OrderCreate = () => {
   const [input, setInput] = useState({
@@ -13,6 +13,8 @@ const OrderCreate = () => {
     search: "",
   });
 
+  const [customerInput, setCustomerInput] = useState("");
+  const [customers, setCustomers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [itemsCountPerPage, setItemsCountPerPage] = useState(0);
@@ -26,7 +28,32 @@ const OrderCreate = () => {
     amount: 0,
     discount: 0,
     payable: 0,
+    customer: "",
   });
+  const [order, setOrder] = useState({});
+  const [modalShow, setModalShow] = useState(false);
+
+  const selectCustomer = (customer) => {
+    setOrder((prevState) => ({ ...prevState, customer_id: customer.id }));
+    setOrderSummary((prevState) => ({
+      ...prevState,
+      customer: customer.name + " " + customer.phone,
+    }));
+  };
+
+  const handleCustomerSearch = (e) => {
+    setCustomerInput(e.target.value);
+  };
+
+  const getCustomer = () => {
+    setIsLoading(true);
+    axiosInstance
+      .get(`${Constants.BASE_URL}/customer?search=${customerInput}`)
+      .then((res) => {
+        setCustomers(res.data);
+        setIsLoading(false);
+      });
+  };
 
   const handleInput = (e) => {
     setInput((prevState) => ({
@@ -193,6 +220,12 @@ const OrderCreate = () => {
                     </div>
                     <div className="card-body">
                       <div className="order-summery">
+                        <p className={"pb-2"}>
+                          <strong>Customer: </strong>
+                          <span className={"text-theme"}>
+                            {orderSummary.customer}
+                          </span>
+                        </p>
                         <table
                           className={
                             "table-sm table table-hover table-stripped table-bordered"
@@ -277,9 +310,44 @@ const OrderCreate = () => {
                 <div className="col-md-4">
                   <div className="card">
                     <div className="card-header">
-                      <h5>Customer List</h5>
+                      <div className="d-flex justify-content-between">
+                        <h5>Customer List</h5>
+                        <button
+                          onClick={() => setModalShow(true)}
+                          className={"btn btn-sm btn-success"}
+                        >
+                          <i className="fa-solid fa-plus" />
+                        </button>
+                      </div>
                     </div>
-                    <div className="card-body"></div>
+                    <div className="card-body">
+                      <div className="input-group">
+                        <input
+                          type={"search"}
+                          className="form-control form-control-sm"
+                          name="search"
+                          placeholder="Search..."
+                          onChange={handleCustomerSearch}
+                          value={customerInput}
+                        />
+                        <button
+                          onClick={getCustomer}
+                          className={"input-group-text bg-theme text-white"}
+                        >
+                          <i className="fa-solid fa-search" />
+                        </button>
+                      </div>
+                      <ul className={"customer-list"}>
+                        {customers.map((customer, index) => (
+                          <li
+                            onClick={() => selectCustomer(customer)}
+                            key={index}
+                          >
+                            {customer.name} - {customer.phone}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -287,6 +355,7 @@ const OrderCreate = () => {
           </div>
         </div>
       </div>
+      <AddCustomer show={modalShow} onHide={() => setModalShow(false)} />
     </>
   );
 };
