@@ -4,6 +4,7 @@ import CardHeader from "../../partials/miniComponent/CardHeader";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
 import AddCustomer from "../../partials/modals/AddCustomer";
+import ShowOrderConfirmation from "../../partials/modals/ShowOrderConfirmation";
 
 const OrderCreate = () => {
   const [input, setInput] = useState({
@@ -33,6 +34,8 @@ const OrderCreate = () => {
   });
   const [order, setOrder] = useState({});
   const [modalShow, setModalShow] = useState(false);
+  const [modalOrderConfirmationShow, setModalOrderConfirmationShow] =
+    useState(false);
 
   const selectCustomer = (customer) => {
     setOrder((prevState) => ({ ...prevState, customer_id: customer.id }));
@@ -143,12 +146,13 @@ const OrderCreate = () => {
       items += carts[key].quantity;
     });
 
-    setOrderSummary({
+    setOrderSummary((prevState) => ({
+      ...prevState,
       items: items,
       amount: amount,
       discount: discount,
       payable: payable,
-    });
+    }));
   };
 
   useEffect(() => {
@@ -400,8 +404,8 @@ const OrderCreate = () => {
                           <li
                             className={
                               orderSummary.customer_id == customer.id
-                                ? "text-theme"
-                                : ""
+                                ? "text-theme order-product-container p-1"
+                                : "order-product-container p-1"
                             }
                             onClick={() => selectCustomer(customer)}
                             key={index}
@@ -411,7 +415,10 @@ const OrderCreate = () => {
                         ))}
                       </ul>
                       <div className="d-grid mt-3">
-                        <button className={"btn theme-button"}>
+                        <button
+                          onClick={() => setModalOrderConfirmationShow(true)}
+                          className={"btn theme-button"}
+                        >
                           Place Order
                         </button>
                       </div>
@@ -424,6 +431,10 @@ const OrderCreate = () => {
         </div>
       </div>
       <AddCustomer show={modalShow} onHide={() => setModalShow(false)} />
+      <ShowOrderConfirmation
+        show={modalOrderConfirmationShow}
+        onHide={() => setModalOrderConfirmationShow(false)}
+      />
     </>
   );
 };

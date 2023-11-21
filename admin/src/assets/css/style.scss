@@ -160,3 +160,24 @@
   border: 1px solid #e2c9f9;
   box-shadow: 0 0 4px silver;
 }
+.order-details-confirmation {
+  h4 {
+    color: $theme-color;
+  }
+  p {
+    strong {
+      color: $theme-color;
+    }
+  }
+  address {
+    font-size: 14px;
+  }
+  .customer-details {
+    font-size: 14px;
+    p {
+      span {
+        color: $theme-color;
+      }
+    }
+  }
+}

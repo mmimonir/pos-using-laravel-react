@@ -1,5 +1,5 @@
 import $ from "jquery";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./../../assets/images/logo.png";
 import Swal from "sweetalert2";
 
@@ -7,8 +7,11 @@ import Constants from "../../Constants";
 import GlobalFunction from "../../GlobalFunction";
 import { axiosInstance } from "../../AxiosInterceptor";
 import GetLocalStorageItem from "../utils/GetLocalStorageItem";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
+  const [branch, setBranch] = useState({});
+
   const handleLogout = () => {
     Swal.fire({
       title: "Are you sure?",
@@ -33,12 +36,20 @@ const Nav = () => {
       }
     });
   };
+
   const handleSidebar = () => {
     $("body").toggleClass("sb-sidenav-toggled");
   };
+
+  useEffect(() => {
+    let branch = GetLocalStorageItem("branch");
+    if (branch) {
+      setBranch(branch);
+    }
+  }, []);
   return (
     <nav className="sb-topnav navbar navbar-expand navbar-dark bg-theme">
-      <a className="navbar-brand ps-3" href="index.html">
+      <Link className="navbar-brand ps-3" to="/">
         <img
           src={logo}
           alt="logo"
@@ -46,8 +57,7 @@ const Nav = () => {
           width={40}
           height={40}
         />
-      </a>
-
+      </Link>
       <button
         onClick={handleSidebar}
         className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
@@ -57,7 +67,10 @@ const Nav = () => {
         <i className="fas fa-bars"></i>
       </button>
       <ul className="navbar-nav align-items-center ms-auto me-3 me-lg-4">
-        <p className="text-white">{GetLocalStorageItem("name")}</p>
+        <p className="text-white">
+          <strong>{branch != undefined ? branch.name + " | " : ""}</strong>
+          {GetLocalStorageItem("name")}
+        </p>
         <li className="nav-item dropdown">
           <a
             className="nav-link dropdown-toggle"

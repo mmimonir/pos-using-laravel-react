@@ -89,4 +89,17 @@ class Shop extends Model
             ->where('status', self::STATUS_ACTIVE)
             ->get();
     }
+
+    public function getShopBySalesManagerId($id)
+    {
+        return self::query()
+            ->with(
+                'address',
+                'address.division:id,name',
+                'address.district:id,name',
+                'address.area:id,name',
+                'user:id,name'
+            )
+            ->findOrFail($id);
+    }
 }
