@@ -161,6 +161,12 @@
   box-shadow: 0 0 4px silver;
 }
 .order-details-confirmation {
+  table {
+    td,
+    th {
+      font-size: 14px;
+    }
+  }
   h4 {
     color: $theme-color;
   }

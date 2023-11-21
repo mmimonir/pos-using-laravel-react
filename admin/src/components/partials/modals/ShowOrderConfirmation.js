@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import logo from "./../../../assets/images/bp_logo_slogan.png";
 import GetLocalStorageItem from "../../utils/GetLocalStorageItem";
+import Moment from "react-moment";
 
 const ShowOrderConfirmation = (props) => {
   const [branch, setBranch] = useState({});
@@ -27,16 +28,20 @@ const ShowOrderConfirmation = (props) => {
       </Modal.Header>
       <Modal.Body>
         <div className="order-details-confirmation">
-          <div className="row px-4">
+          <div className="row px-4 align-content-center">
             <div className="col-md-6">
               {Object.keys(branch).length > 0 ? (
                 <>
                   <img src={logo} alt="logo" className="img-thumbnail w-50" />
-                  {/* <img
-                    src={branch.logo}
-                    alt="logo"
-                    className="img-thumbnail w-50"
-                  /> */}
+                </>
+              ) : null}
+            </div>
+            <div className="col-md-6 text-end">
+              <h4>ORDER DETAILS</h4>
+            </div>
+            <div className="col-md-6">
+              {Object.keys(branch).length > 0 ? (
+                <>
                   <p>
                     {" "}
                     <strong>{branch.name}</strong>
@@ -45,24 +50,26 @@ const ShowOrderConfirmation = (props) => {
                     {branch.address.address}, {branch.address.area},{" "}
                     {branch.address.district}, {branch.address.division}{" "}
                   </address>
-                  <p>Phone: {branch.phone}</p>
+                  <p>
+                    <small>Phone: {branch.phone}</small>
+                  </p>
                 </>
               ) : null}
             </div>
             <div className="col-md-6 text-end">
-              <h4>ORDER DETAILS</h4>
-            </div>
-            <div className="col-md-12 text-end">
               <p>
-                <strong>23rd March, 2023</strong>
+                <strong>
+                  <Moment format="DD MMM, YYYY">{new Date()}</Moment>
+                </strong>
               </p>
-              <h5>Customer Details</h5>
+              <h6>Customer Details</h6>
               <div className="customer-details">
                 <p>
-                  Name: <span>Naim</span>
+                  Name: <span>{props.orderSummary.customer.split("-")[0]}</span>
                 </p>
                 <p>
-                  Phone: <span>01813-551621</span>
+                  Phone:{" "}
+                  <span>{props.orderSummary.customer.split("-")[1]}</span>
                 </p>
               </div>
             </div>
@@ -82,32 +89,63 @@ const ShowOrderConfirmation = (props) => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Panjabi</td>
-                    <td className="text-center">1</td>
-                    <td className="text-end">1200</td>
-                    <td className="text-end">1200</td>
-                  </tr>
+                  {Object.keys(props.carts).map((key, index) => (
+                    <tr key={index}>
+                      <td>{++index}</td>
+                      <td>{props.carts[key].name}</td>
+                      <td className="text-center">
+                        {props.carts[key].quantity}
+                      </td>
+                      <td className="text-end">
+                        {new Intl.NumberFormat("us").format(
+                          props.carts[key].price
+                        )}
+                        ৳
+                      </td>
+                      <td className="text-end">
+                        {new Intl.NumberFormat("us").format(
+                          props.carts[key].original_price *
+                            props.carts[key].quantity
+                        )}
+                        ৳
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
                 <tfoot>
                   <tr>
                     <td colSpan="4" className="text-end">
                       <strong>Sub Total</strong>
                     </td>
-                    <td className="text-end">1200</td>
+                    <td className="text-end">
+                      {new Intl.NumberFormat("us").format(
+                        props.orderSummary.amount
+                      )}
+                      ৳
+                    </td>
                   </tr>
                   <tr>
                     <td colSpan="4" className="text-end">
                       <strong>Discount</strong>
                     </td>
-                    <td className="text-end">-100</td>
+                    <td className="text-end">
+                      -
+                      {new Intl.NumberFormat("us").format(
+                        props.orderSummary.discount
+                      )}
+                      ৳
+                    </td>
                   </tr>
                   <tr>
                     <td colSpan="4" className="text-end">
                       <strong>Total</strong>
                     </td>
-                    <td className="text-end">1000</td>
+                    <td className="text-end">
+                      {new Intl.NumberFormat("us").format(
+                        props.orderSummary.payable
+                      )}
+                      ৳
+                    </td>
                   </tr>
                 </tfoot>
               </table>
@@ -117,10 +155,13 @@ const ShowOrderConfirmation = (props) => {
       </Modal.Body>
       <Modal.Footer>
         <div className="px-4">
-          <button className={"btn btn-danger"} onClick={props.onHide}>
+          <button className={"btn btn-danger btn-sm"} onClick={props.onHide}>
             Close
           </button>
-          <button className={"btn theme-button ms-2"} onClick={props.onHide}>
+          <button
+            className={"btn theme-button btn-sm ms-2"}
+            onClick={props.onHide}
+          >
             Confirm
           </button>
         </div>

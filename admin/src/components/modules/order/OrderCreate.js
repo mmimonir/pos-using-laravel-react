@@ -41,7 +41,7 @@ const OrderCreate = () => {
     setOrder((prevState) => ({ ...prevState, customer_id: customer.id }));
     setOrderSummary((prevState) => ({
       ...prevState,
-      customer: customer.name + " " + customer.phone,
+      customer: customer.name + " - " + customer.phone,
     }));
     setOrderSummary((prevState) => ({
       ...prevState,
@@ -232,14 +232,25 @@ const OrderCreate = () => {
                                 <strong>{product.name}</strong>
                               </p>
                               <p>
-                                <small>Original Price: {product.price}</small>
+                                <small>
+                                  Original Price:{" "}
+                                  {new Intl.NumberFormat("us").format(
+                                    product.price
+                                  )}
+                                  ৳
+                                </small>
                               </p>
                               <p className={"text-theme"}>
                                 <small>
-                                  Price: {product.sell_price.price}{" "}
-                                  {product.sell_price.symbol}| Discount:{" "}
-                                  {product.sell_price.discount}{" "}
-                                  {product.sell_price.symbol}
+                                  Price:{" "}
+                                  {new Intl.NumberFormat("us").format(
+                                    product.sell_price.price
+                                  )}
+                                  ৳ | Discount:{" "}
+                                  {Intl.NumberFormat("us").format(
+                                    product.sell_price.discount
+                                  )}
+                                  ৳
                                 </small>
                               </p>
                               <p>
@@ -281,19 +292,29 @@ const OrderCreate = () => {
                             <tr>
                               <th>Original Price</th>
                               <td className="text-end">
-                                {orderSummary.amount}৳
+                                {new Intl.NumberFormat("us").format(
+                                  orderSummary.amount
+                                )}
+                                ৳
                               </td>
                             </tr>
                             <tr>
                               <th>Discount</th>
                               <td className="text-end">
-                                - {orderSummary.discount}৳
+                                -{" "}
+                                {new Intl.NumberFormat("us").format(
+                                  orderSummary.discount
+                                )}
+                                ৳
                               </td>
                             </tr>
                             <tr>
                               <th>Net Payable</th>
                               <th className="text-end text-theme">
-                                {orderSummary.payable}৳
+                                {new Intl.NumberFormat("us").format(
+                                  orderSummary.payable
+                                )}
+                                ৳
                               </th>
                             </tr>
                           </tbody>
@@ -399,7 +420,7 @@ const OrderCreate = () => {
                           <i className="fa-solid fa-search" />
                         </button>
                       </div>
-                      <ul className={"customer-list"}>
+                      <ul className={"customer-list mt-3"}>
                         {customers.map((customer, index) => (
                           <li
                             className={
@@ -418,6 +439,10 @@ const OrderCreate = () => {
                         <button
                           onClick={() => setModalOrderConfirmationShow(true)}
                           className={"btn theme-button"}
+                          disabled={
+                            orderSummary.items === 0 ||
+                            orderSummary.customer_id === 0
+                          }
                         >
                           Place Order
                         </button>
@@ -434,6 +459,8 @@ const OrderCreate = () => {
       <ShowOrderConfirmation
         show={modalOrderConfirmationShow}
         onHide={() => setModalOrderConfirmationShow(false)}
+        orderSummary={orderSummary}
+        carts={carts}
       />
     </>
   );
