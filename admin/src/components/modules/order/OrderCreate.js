@@ -31,11 +31,35 @@ const OrderCreate = () => {
     payable: 0,
     customer: "",
     customer_id: 0,
+    paid_amount: 0,
+    due_amount: 0,
+    payment_method_id: 1,
   });
   const [order, setOrder] = useState({});
   const [modalShow, setModalShow] = useState(false);
   const [modalOrderConfirmationShow, setModalOrderConfirmationShow] =
     useState(false);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+
+  const getPaymentMethods = () => {
+    axiosInstance
+      .get(`${Constants.BASE_URL}/get-payment-method`)
+      .then((res) => {
+        setPaymentMethods(res.data);
+      });
+  };
+
+  const handleOrderPlace = () => {
+    setIsLoading(true);
+    axiosInstance
+      .post(`${Constants.BASE_URL}/order`, {
+        carts: carts,
+        order_summary: orderSummary,
+      })
+      .then((res) => {
+        setIsLoading(false);
+      });
+  };
 
   const selectCustomer = (customer) => {
     setOrder((prevState) => ({ ...prevState, customer_id: customer.id }));
@@ -152,11 +176,31 @@ const OrderCreate = () => {
       amount: amount,
       discount: discount,
       payable: payable,
+      paid_amount: payable,
     }));
+  };
+
+  const handleOrderSummaryInput = (e) => {
+    if (
+      e.target.name === "paid_amount" &&
+      orderSummary.payable >= e.target.value
+    ) {
+      setOrderSummary((prevState) => ({
+        ...prevState,
+        paid_amount: e.target.value,
+        due_amount: orderSummary.payable - e.target.value,
+      }));
+    } else if (e.target.name === "payment_method_id") {
+      setOrderSummary((prevState) => ({
+        ...prevState,
+        payment_method_id: +e.target.value,
+      }));
+    }
   };
 
   useEffect(() => {
     getProducts();
+    getPaymentMethods();
   }, []);
 
   useEffect(() => {
@@ -459,8 +503,12 @@ const OrderCreate = () => {
       <ShowOrderConfirmation
         show={modalOrderConfirmationShow}
         onHide={() => setModalOrderConfirmationShow(false)}
-        orderSummary={orderSummary}
+        order_summary={orderSummary}
         carts={carts}
+        is_loading={isLoading}
+        handleOrderPlace={handleOrderPlace}
+        handleOrderSummaryInput={handleOrderSummaryInput}
+        paymentMethods={paymentMethods}
       />
     </>
   );

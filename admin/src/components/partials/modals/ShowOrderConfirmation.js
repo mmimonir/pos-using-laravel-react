@@ -4,7 +4,11 @@ import logo from "./../../../assets/images/bp_logo_slogan.png";
 import GetLocalStorageItem from "../../utils/GetLocalStorageItem";
 import Moment from "react-moment";
 
-const ShowOrderConfirmation = (props) => {
+const ShowOrderConfirmation = ({
+  handleOrderPlace,
+  handleOrderSummaryInput,
+  ...props
+}) => {
   const [branch, setBranch] = useState({});
 
   useEffect(() => {
@@ -65,18 +69,19 @@ const ShowOrderConfirmation = (props) => {
               <h6>Customer Details</h6>
               <div className="customer-details">
                 <p>
-                  Name: <span>{props.orderSummary.customer.split("-")[0]}</span>
+                  Name:{" "}
+                  <span>{props.order_summary.customer.split("-")[0]}</span>
                 </p>
                 <p>
                   Phone:{" "}
-                  <span>{props.orderSummary.customer.split("-")[1]}</span>
+                  <span>{props.order_summary.customer.split("-")[1]}</span>
                 </p>
               </div>
             </div>
             <div className="col-md-12">
               <table
                 className={
-                  "table table-hover table-stripped table-bordered mt-4"
+                  "table table-sm table-hover table-stripped table-bordered mt-4"
                 }
               >
                 <thead className={"text-center"}>
@@ -114,38 +119,89 @@ const ShowOrderConfirmation = (props) => {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td colSpan="4" className="text-end">
+                    <th colSpan="4" className="text-end">
                       <strong>Sub Total</strong>
-                    </td>
-                    <td className="text-end">
+                    </th>
+                    <th className="text-end">
                       {new Intl.NumberFormat("us").format(
-                        props.orderSummary.amount
+                        props.order_summary.amount
                       )}
                       ৳
-                    </td>
+                    </th>
                   </tr>
                   <tr>
-                    <td colSpan="4" className="text-end">
+                    <th colSpan="4" className="text-end">
                       <strong>Discount</strong>
-                    </td>
-                    <td className="text-end">
+                    </th>
+                    <th className="text-end">
                       -
                       {new Intl.NumberFormat("us").format(
-                        props.orderSummary.discount
+                        props.order_summary.discount
                       )}
                       ৳
-                    </td>
+                    </th>
                   </tr>
                   <tr>
-                    <td colSpan="4" className="text-end">
+                    <th colSpan="4" className="text-end">
                       <strong>Total</strong>
-                    </td>
-                    <td className="text-end">
+                    </th>
+                    <th className="text-end">
                       {new Intl.NumberFormat("us").format(
-                        props.orderSummary.payable
+                        props.order_summary.payable
                       )}
                       ৳
-                    </td>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th
+                      colSpan="4"
+                      className="text-end text-theme align-middle"
+                    >
+                      <strong>Paid Amount</strong>
+                    </th>
+                    <th className="text-end align-middle">
+                      <div className="input-group">
+                        <input
+                          className={"form-control form-control-sm text-end"}
+                          type={"number"}
+                          name={"paid_amount"}
+                          value={props.order_summary.paid_amount}
+                          onChange={handleOrderSummaryInput}
+                          style={{ width: "35px" }}
+                        />
+                        <div className={"input-group-text"}>৳</div>
+                      </div>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colSpan="4" className="text-end">
+                      <strong>Due Amount</strong>
+                    </th>
+                    <th className="text-end">
+                      {new Intl.NumberFormat("us").format(
+                        props.order_summary.due_amount
+                      )}
+                      ৳
+                    </th>
+                  </tr>
+                  <tr>
+                    <th colSpan="4" className="text-end text-theme">
+                      <strong>Select Payment Method</strong>
+                    </th>
+                    <th className="text-end">
+                      <select
+                        className={"form-select-sm form-select"}
+                        name={"payment_method_id"}
+                        value={props.order_summary.payment_method_id}
+                        onChange={handleOrderSummaryInput}
+                      >
+                        {props.paymentMethods.map((payment_method, intex) => (
+                          <option key={intex} value={payment_method.id}>
+                            {payment_method.name}
+                          </option>
+                        ))}
+                      </select>
+                    </th>
                   </tr>
                 </tfoot>
               </table>
@@ -160,10 +216,13 @@ const ShowOrderConfirmation = (props) => {
           </button>
           <button
             className={"btn theme-button btn-sm ms-2"}
-            onClick={props.onHide}
-          >
-            Confirm
-          </button>
+            onClick={handleOrderPlace}
+            dangerouslySetInnerHTML={{
+              __html: props.is_loading
+                ? '<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...'
+                : "Confirm",
+            }}
+          />
         </div>
       </Modal.Footer>
     </Modal>

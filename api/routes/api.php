@@ -11,6 +11,8 @@ use App\Http\Controllers\{
     CustomerController,
     DistrictController,
     DivisionController,
+    OrderController,
+    PaymentMethodController,
     ProductController,
     ProductPhotoController,
     SalesManagerController,
@@ -67,6 +69,8 @@ Route::group(['middleware' => ['auth:admin']], function () {
 Route::group(['middleware' => ['auth:admin,sales_manager']], function () {
     Route::apiResource("product", ProductController::class)->only(['index', 'show']);
     Route::apiResource("customer", CustomerController::class);
+    Route::apiResource("order", OrderController::class);
+    Route::get("get-payment-method", [PaymentMethodController::class, 'index']);
 });
 
 Route::group(['middleware' => ['auth:sales_manager']], function () {
