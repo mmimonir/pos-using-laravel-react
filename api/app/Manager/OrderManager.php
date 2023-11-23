@@ -14,17 +14,18 @@ class OrderManager
         return self::ORDER_PREFIX . $shop_id . Carbon::now()->format('dmy') . random_int(100, 999);
     }
 
-    public static function calculate_order_prices($input)
+    public static function handle_order_data($input)
     {
         $sub_total = 0;
         $discount = 0;
         $total = 0;
         $quantity = 0;
+        $order_details = [];
 
         if (isset($input['carts'])) {
             foreach ($input['carts'] as $key => $cart) {
                 $product =  (new Product())->getProductById($key);
-                if ($product) {
+                if ($product && $product->stock >= $cart['quantity']) {
                     $price = PriceManager::calculate_sell_price(
                         $product->price,
                         $product->discount_percent,
@@ -36,6 +37,16 @@ class OrderManager
                     $quantity += $cart['quantity'];
                     $sub_total += $product->price * $cart['quantity'];
                     $total += $price['price'] * $cart['quantity'];
+
+                    $product_data['stock'] = $product->stock - $cart['quantity'];
+                    $product->update($product_data);
+                    $product->quantity = $cart['quantity'];
+
+                    $order_details[] = $product;
+                } else {
+                    info('PRODUCT_STOCK_OUT', ['product' => $product, 'cart' => $cart]);
+                    return ['error_description' => $product->name . ' Product out of stock or not exist'];
+                    break;
                 }
             }
         }
@@ -45,6 +56,7 @@ class OrderManager
             'discount' => $discount,
             'total' => $total,
             'quantity' => $quantity,
+            'order_details' => $order_details
         ];
     }
 

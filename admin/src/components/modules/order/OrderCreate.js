@@ -5,6 +5,7 @@ import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
 import AddCustomer from "../../partials/modals/AddCustomer";
 import ShowOrderConfirmation from "../../partials/modals/ShowOrderConfirmation";
+import Swal from "sweetalert2";
 
 const OrderCreate = () => {
   const [input, setInput] = useState({
@@ -34,6 +35,7 @@ const OrderCreate = () => {
     paid_amount: 0,
     due_amount: 0,
     payment_method_id: 1,
+    trx_id: "",
   });
   const [order, setOrder] = useState({});
   const [modalShow, setModalShow] = useState(false);
@@ -57,6 +59,17 @@ const OrderCreate = () => {
         order_summary: orderSummary,
       })
       .then((res) => {
+        if (res.data.flag != undefined) {
+          setModalOrderConfirmationShow(false);
+        }
+        Swal.fire({
+          position: "top-end",
+          icon: res.data.cls,
+          title: res.data.msg,
+          showConfirmButton: false,
+          toast: true,
+          timer: 1500,
+        });
         setIsLoading(false);
       });
   };
@@ -194,6 +207,17 @@ const OrderCreate = () => {
       setOrderSummary((prevState) => ({
         ...prevState,
         payment_method_id: +e.target.value,
+      }));
+      if (e.target.value == 1) {
+        setOrderSummary((prevState) => ({
+          ...prevState,
+          trx_id: "",
+        }));
+      }
+    } else if (e.target.name === "trx_id") {
+      setOrderSummary((prevState) => ({
+        ...prevState,
+        trx_id: e.target.value,
       }));
     }
   };

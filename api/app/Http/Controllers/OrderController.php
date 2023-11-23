@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 
@@ -29,8 +30,23 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-        // return auth()->user();
-        return $order = (new Order)->placeOrder($request->all(), auth()->user());
+        try {
+            DB::beginTransaction();
+            $order = (new Order)->placeOrder($request->all(), auth()->user());
+            DB::commit();
+            return response()->json([
+                'msg' => 'Order placed successfully',
+                'cls' => 'success',
+                'flag' => 1,
+            ]);
+        } catch (\Throwable $e) {
+            info('ORDER_PLACED_FAILED', ['message' => $e->getMessage(), $e]);
+            DB::rollback();
+            return response()->json([
+                'msg' => $e->getMessage(),
+                'cls' => 'warning',
+            ]);
+        }
     }
 
     /**

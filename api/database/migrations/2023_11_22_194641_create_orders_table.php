@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('quantity')->nullable();
             $table->integer('paid_amount')->nullable();
             $table->integer('due_amount')->nullable();
-            $table->string('order_number')->nullable();
+            $table->string('order_number')->index();
             $table->tinyInteger('order_status')->nullable();
             $table->tinyInteger('payment_status')->nullable();
             $table->tinyInteger('shipment_status')->nullable();

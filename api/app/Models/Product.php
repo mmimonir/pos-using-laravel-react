@@ -67,7 +67,7 @@ class Product extends Model
 
     public function getProductById($id)
     {
-        return self::query()->findOrFail($id);
+        return self::query()->with('primary_photo')->findOrFail($id);
     }
 
     public function getProductList($input)
