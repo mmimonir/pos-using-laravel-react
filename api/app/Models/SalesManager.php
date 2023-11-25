@@ -26,6 +26,10 @@ class SalesManager extends Model
         'password',
     ];
 
+    protected $hidden = [
+        'password',
+    ];
+
     public const STATUS_ACTIVE = 1;
     public const STATUS_ACTIVE_TEXT = 'Active';
     public const STATUS_INACTIVE = 0;

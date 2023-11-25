@@ -2,19 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderDetailsResource;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Http\Resources\OrderListResource;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $orders = (new Order())->getAllOrders($request->all(), auth());
+        return OrderListResource::collection($orders);
     }
 
     /**
@@ -54,7 +58,10 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        $order->load(
+            ['customer', 'payment_method', 'sales_manager:id,name', 'shop', 'order_details']
+        );
+        return new OrderDetailsResource($order);
     }
 
     /**

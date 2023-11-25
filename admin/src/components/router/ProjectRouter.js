@@ -25,6 +25,8 @@ import ShopEdit from "../modules/shop/ShopEdit";
 import AddSalesManager from "../modules/salesManager/AddSalesManager";
 import SalesManagerList from "../modules/salesManager/SalesManagerList";
 import OrderCreate from "../modules/order/OrderCreate";
+import OrderList from "../modules/order/OrderList";
+import OrderDetails from "../modules/order/OrderDetails";
 
 const ProjectRouter = createBrowserRouter([
   {
@@ -120,8 +122,16 @@ const ProjectRouter = createBrowserRouter([
         element: <SalesManagerList />,
       },
       {
+        path: "/order",
+        element: <OrderList />,
+      },
+      {
         path: "/order/create",
         element: <OrderCreate />,
+      },
+      {
+        path: "/order/:id",
+        element: <OrderDetails />,
       },
       {
         path: "/error-500",
