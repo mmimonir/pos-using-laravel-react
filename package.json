@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "start": "concurrently \"npm run start-frontend\" \"npm run start-backend\"",
+    "start-frontend": "cd admin && npm start",
+    "start-backend": "cd api && php artisan serve"
+  }
+}
