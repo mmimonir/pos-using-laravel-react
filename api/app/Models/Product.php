@@ -141,4 +141,19 @@ class Product extends Model
     {
         return $this->hasMany(ProductAttribute::class);
     }
+
+    public function getProductForBarCode($input)
+    {
+        $query = self::query()->select('id', 'name', 'sku', 'price', 'discount_end', 'discount_fixed', 'discount_percent', 'discount_start');
+        if (!empty($input['name'])) {
+            $query->where('name', 'like', '%' . $input['name'] . '%');
+        }
+        if (!empty($input['category_id'])) {
+            $query->where('category_id', $input['category_id']);
+        }
+        if (!empty($input['sub_category_id'])) {
+            $query->where('sub_category_id', $input['sub_category_id']);
+        }
+        return $query->get();
+    }
 }

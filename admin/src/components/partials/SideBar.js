@@ -287,6 +287,13 @@ const SideBar = () => {
                 </Link>
               </nav>
             </div>
+            <div className="sb-sidenav-menu-heading">Accessories</div>
+            <Link className="nav-link" to="/generate-bar-code">
+              <div className="sb-nav-link-icon">
+                <i className="fas fa-table"></i>
+              </div>
+              Generate bar code
+            </Link>
           </div>
         </div>
         <div className="sb-sidenav-footer bg-theme text-silver">

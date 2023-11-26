@@ -47,8 +47,6 @@ Route::get('areas/{id}', [AreaController::class, 'index']);
 
 Route::group(['middleware' => ['auth:admin']], function () {
     Route::post("logout", [AuthController::class, 'logout']);
-    Route::get("get-category-list", [CategoryController::class, 'get_category_list']);
-    Route::get("get-sub-category-list/{category_id}", [SubCategoryController::class, 'get_sub_category_list']);
     Route::get("get-brand-list", [BrandController::class, 'get_brand_list']);
     Route::get("get-country-list", [CountryController::class, 'get_country_list']);
     Route::get("get-supplier-list", [SupplierController::class, 'get_supplier_list']);
@@ -71,6 +69,11 @@ Route::group(['middleware' => ['auth:admin,sales_manager']], function () {
     Route::apiResource("customer", CustomerController::class);
     Route::apiResource("order", OrderController::class);
     Route::get("get-payment-method", [PaymentMethodController::class, 'index']);
+    Route::get("category", [CategoryController::class, "index"]);
+    Route::get("sub-category", [SubCategoryController::class, "index"]);
+    Route::get("get-category-list", [CategoryController::class, 'get_category_list']);
+    Route::get("get-sub-category-list/{category_id}", [SubCategoryController::class, 'get_sub_category_list']);
+    Route::get("get-product-list-for-bar-code", [ProductController::class, 'get_product_list_for_bar_code']);
 });
 
 Route::group(['middleware' => ['auth:sales_manager']], function () {
