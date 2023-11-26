@@ -41,7 +41,6 @@ class OrderDetailsListResource extends JsonResource
             'discount_percent' => $this->discount_percent,
             'discount_start' => $this->discount_start ? Carbon::create($this->discount_start)->toDayDateTimeString() : '',
             'discount_end' => $this->discount_end ? Carbon::create($this->discount_end)->toDayDateTimeString() : '',
-
         ];
     }
 }

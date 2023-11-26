@@ -41,4 +41,14 @@ class Transaction extends Model
             'transactionable_type' => SalesManager::class,
         ];
     }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function payment_method()
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
 }

@@ -42,6 +42,7 @@ class OrderController extends Controller
                 'msg' => 'Order placed successfully',
                 'cls' => 'success',
                 'flag' => 1,
+                'order_id' => $order->id
             ]);
         } catch (\Throwable $e) {
             info('ORDER_PLACED_FAILED', ['message' => $e->getMessage(), $e]);
@@ -59,7 +60,17 @@ class OrderController extends Controller
     public function show(Order $order)
     {
         $order->load(
-            ['customer', 'payment_method', 'sales_manager:id,name', 'shop', 'order_details']
+            [
+                'customer',
+                'payment_method',
+                'sales_manager:id,name',
+                'shop',
+                'order_details',
+                'transactions',
+                'transactions.customer',
+                'transactions.payment_method',
+                'transactions.transactionable'
+            ]
         );
         return new OrderDetailsResource($order);
     }

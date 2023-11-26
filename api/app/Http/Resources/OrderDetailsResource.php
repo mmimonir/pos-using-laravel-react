@@ -42,6 +42,7 @@ class OrderDetailsResource extends JsonResource
             'sub_total' => $this->sub_total,
             'total' => $this->total,
             'order_details' => OrderDetailsListResource::collection($this->order_details),
+            'transactions' => TransactionListResource::collection($this->transactions),
         ];
     }
 }

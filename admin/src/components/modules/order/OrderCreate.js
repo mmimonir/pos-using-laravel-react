@@ -6,6 +6,7 @@ import Constants from "../../../Constants";
 import AddCustomer from "../../partials/modals/AddCustomer";
 import ShowOrderConfirmation from "../../partials/modals/ShowOrderConfirmation";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const OrderCreate = () => {
   const [input, setInput] = useState({
@@ -42,6 +43,7 @@ const OrderCreate = () => {
   const [modalOrderConfirmationShow, setModalOrderConfirmationShow] =
     useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const navigate = useNavigate();
 
   const getPaymentMethods = () => {
     axiosInstance
@@ -61,6 +63,7 @@ const OrderCreate = () => {
       .then((res) => {
         if (res.data.flag != undefined) {
           setModalOrderConfirmationShow(false);
+          navigate(`/order/${res.data.order_id}`);
         }
         Swal.fire({
           position: "top-end",
