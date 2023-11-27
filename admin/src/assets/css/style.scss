@@ -193,3 +193,27 @@
 .sm-table {
   font-size: 14px;
 }
+.bar-code-area-wrapper {
+  box-shadow: 0 0 10px silver;
+  margin: 25px auto 25px auto;
+  width: 595px;
+  height: 842px;
+}
+.print-area {
+  padding: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  .bar-code-items {
+    width: 33.33%;
+    padding: 18px;
+    text-align: center;
+    font-size: 14px;
+    border: 1px solid #e8e8e8;
+    height: fit-content;
+  }
+}
+.deleted {
+  color: red;
+  text-decoration: line-through;
+  font-size: 12px;
+}

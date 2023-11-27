@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BreadCrumb from "../../partials/BreadCrumb";
 import { useNavigate } from "react-router-dom";
-import ErrorMsg from "../../utils/ErrorMsg";
 import { axiosInstance } from "../../../AxiosInterceptor";
 import Constants from "../../../Constants";
 import Spinner from "../../utils/Spinner";
-import Swal from "sweetalert2";
 import CardHeader from "../../partials/miniComponent/CardHeader";
+import Loader from "../../partials/miniComponent/Loader";
+import BarCodePage from "./BarCodePage";
+import ReactToPring, { useReactToPrint } from "react-to-print";
 
 const BarCode = () => {
-  const navigate = useNavigate();
+  const componentRef = useRef();
   const [input, setInput] = useState({
     category_id: "",
     sub_category_id: "",
@@ -21,6 +22,16 @@ const BarCode = () => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [products, setProducts] = useState([]);
+  const [paperSize, setPaperSize] = useState({
+    a4: {
+      width: 595,
+      height: 842,
+    },
+  });
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   const handleInput = (e) => {
     if (e.target.name === "category_id") {
@@ -50,12 +61,15 @@ const BarCode = () => {
   };
 
   const handleProductSearch = () => {
+    setIsLoading(true);
     axiosInstance
       .get(
         `${Constants.BASE_URL}/get-product-list-for-bar-code?name=${input?.name}&category_id=${input?.category_id}&sub_category_id=${input?.sub_category_id}`
       )
       .then((res) => {
-        setProducts(res.data);
+        console.log(res.data);
+        setProducts(res.data.data);
+        setIsLoading(false);
       });
   };
 
@@ -148,6 +162,28 @@ const BarCode = () => {
                       </button>
                     )}
                   </div>
+                </div>
+              </div>
+              <div
+                className="print-area-parent"
+                style={{
+                  display: Object.keys(products).length > 0 ? "block" : "none",
+                }}
+              >
+                <button
+                  className={"btn theme-button float-end mt-2"}
+                  onClick={handlePrint}
+                >
+                  Print!
+                </button>
+                <div className="bar-code-area-wrapper">
+                  <BarCodePage
+                    products={products}
+                    paperSize={paperSize}
+                    isLoading={isLoading}
+                    Loader={Loader}
+                    ref={componentRef}
+                  />
                 </div>
               </div>
             </div>
