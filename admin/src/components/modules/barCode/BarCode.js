@@ -92,6 +92,7 @@ const BarCode = () => {
                 link={"#"}
                 icon={"fa-list"}
                 button_text={"List"}
+                hide={true}
               />
             </div>
             <div className="card-body">

@@ -255,7 +255,7 @@ const SideBar = () => {
                 </Link>
               </>
             )}
-            <div className="sb-sidenav-menu-heading">Orders</div>
+            <div className="sb-sidenav-menu-heading">Sales</div>
             <a
               className="nav-link collapsed"
               href="#"
@@ -293,6 +293,13 @@ const SideBar = () => {
                 <i className="fas fa-table"></i>
               </div>
               Generate bar code
+            </Link>
+            <div className="sb-sidenav-menu-heading">Reports</div>
+            <Link className="nav-link" to="/report">
+              <div className="sb-nav-link-icon">
+                <i className="fas fa-table"></i>
+              </div>
+              Report
             </Link>
           </div>
         </div>

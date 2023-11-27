@@ -217,3 +217,14 @@
   text-decoration: line-through;
   font-size: 12px;
 }
+.report-card {
+  box-shadow: 0 0 5px silver;
+  @include transition;
+  &:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+  svg {
+    color: $theme-color;
+  }
+}
