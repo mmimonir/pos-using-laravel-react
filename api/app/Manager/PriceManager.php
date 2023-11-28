@@ -33,7 +33,6 @@ class PriceManager
             'symbol' => self::CURRENCY_SYMBOL
         ];
     }
-
     private static function calculate_price(
         $price,
         $discount_percent,
@@ -51,5 +50,13 @@ class PriceManager
             'discount' => $discount,
             'symbol' => self::CURRENCY_SYMBOL
         ];
+    }
+    /**
+     * @param integer $price
+     * @return string
+     */
+    public static function priceFormat(int $price): string
+    {
+        return number_format($price, 2) . ' ' . self::CURRENCY_SYMBOL;
     }
 }

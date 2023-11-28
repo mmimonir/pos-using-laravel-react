@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -155,5 +156,11 @@ class Product extends Model
             $query->where('sub_category_id', $input['sub_category_id']);
         }
         return $query->get();
+    }
+
+    public function getAllProduct($columns = ['*'])
+    {
+        $products =  DB::table('products')->select($columns)->get();
+        return collect($products);
     }
 }

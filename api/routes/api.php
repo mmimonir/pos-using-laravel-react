@@ -15,6 +15,7 @@ use App\Http\Controllers\{
     PaymentMethodController,
     ProductController,
     ProductPhotoController,
+    ReportController,
     SalesManagerController,
     ShopController,
     SubCategoryController,
@@ -74,6 +75,7 @@ Route::group(['middleware' => ['auth:admin,sales_manager']], function () {
     Route::get("get-category-list", [CategoryController::class, 'get_category_list']);
     Route::get("get-sub-category-list/{category_id}", [SubCategoryController::class, 'get_sub_category_list']);
     Route::get("get-product-list-for-bar-code", [ProductController::class, 'get_product_list_for_bar_code']);
+    Route::get("get-reports", [ReportController::class, 'index']);
 });
 
 Route::group(['middleware' => ['auth:sales_manager']], function () {
