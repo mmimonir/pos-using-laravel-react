@@ -55,7 +55,7 @@ const Report = () => {
                                 </div>
                                 <div className="flex-grow-1 ms-3">
                                   <h6>Total Sales</h6>
-                                  <h5>12,258</h5>
+                                  <h5>{report.total_sale}</h5>
                                 </div>
                               </div>
                             </div>
@@ -70,7 +70,7 @@ const Report = () => {
                                 </div>
                                 <div className="flex-grow-1 ms-3">
                                   <h6>Total Purchase</h6>
-                                  <h5>12,258</h5>
+                                  <h5>{report.total_purchase}</h5>
                                 </div>
                               </div>
                             </div>
@@ -85,7 +85,7 @@ const Report = () => {
                                 </div>
                                 <div className="flex-grow-1 ms-3">
                                   <h6>Total Sales Return</h6>
-                                  <h5>12,258</h5>
+                                  <h5>0</h5>
                                 </div>
                               </div>
                             </div>
@@ -96,11 +96,11 @@ const Report = () => {
                             <div className="card-body">
                               <div className="d-flex align-items-center">
                                 <div className="flex-shrink-0">
-                                  <i className="fa-solid fa-rotate-left fa-2x"></i>
+                                  <i className="fa-solid fa-rotate-left fa-flip-horizontal fa-2x"></i>
                                 </div>
                                 <div className="flex-grow-1 ms-3">
-                                  <h6>Purchage Return</h6>
-                                  <h5>12,258</h5>
+                                  <h6>Purchase Return</h6>
+                                  <h5>0</h5>
                                 </div>
                               </div>
                             </div>
@@ -111,11 +111,11 @@ const Report = () => {
                             <div className="card-body">
                               <div className="d-flex align-items-center">
                                 <div className="flex-shrink-0">
-                                  <i className="fa-solid fa-rotate-right fa-2x"></i>
+                                  <i className="fa-solid fa-hand-holding-dollar fa-2x"></i>
                                 </div>
                                 <div className="flex-grow-1 ms-3">
                                   <h6>Today's Sale</h6>
-                                  <h5>12,258</h5>
+                                  <h5>{report.total_sale_today}</h5>
                                 </div>
                               </div>
                             </div>
@@ -126,11 +126,11 @@ const Report = () => {
                             <div className="card-body">
                               <div className="d-flex align-items-center">
                                 <div className="flex-shrink-0">
-                                  <i className="fa-solid fa-rotate-right fa-2x"></i>
+                                  <i className="fa-solid fa-person-walking-arrow-loop-left fa-2x"></i>
                                 </div>
                                 <div className="flex-grow-1 ms-3">
                                   <h6>Today's Purchage</h6>
-                                  <h5>12,258</h5>
+                                  <h5>{report.total_purchase_today}</h5>
                                 </div>
                               </div>
                             </div>
@@ -145,7 +145,7 @@ const Report = () => {
                                 </div>
                                 <div className="flex-grow-1 ms-3">
                                   <h6>Today's Sale Return</h6>
-                                  <h5>12,258</h5>
+                                  <h5>0</h5>
                                 </div>
                               </div>
                             </div>
@@ -160,7 +160,7 @@ const Report = () => {
                                 </div>
                                 <div className="flex-grow-1 ms-3">
                                   <h6>Purchage Return</h6>
-                                  <h5>12,258</h5>
+                                  <h5>0</h5>
                                 </div>
                               </div>
                             </div>
