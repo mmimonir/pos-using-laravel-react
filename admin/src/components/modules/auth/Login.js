@@ -22,7 +22,7 @@ const Login = () => {
     axiosInstance
       .post(`${Constants.BASE_URL}/login`, input)
       .then((res) => {
-        // console.log(res.data);
+        console.log("Login JS", res.data);
         // localStorage.setItem("token", res.data.token);
         // localStorage.setItem("email", res.data.email);
         // localStorage.setItem("name", res.data.name);
@@ -33,6 +33,7 @@ const Login = () => {
         window.location.reload();
       })
       .catch((errors) => {
+        console.log("Error From Login js" + errors);
         setIsLoading(false);
         if (errors.response.status === 422) {
           setErrors(errors.response.data.errors);
