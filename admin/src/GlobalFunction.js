@@ -17,8 +17,8 @@ const GlobalFunction = {
       return false;
     }
   },
-  formatPrice(price) {
-    return new Intl.NumberFormat("us").format(price) + "৳";
+  formatPrice(price, symbol = "৳") {
+    return new Intl.NumberFormat("us").format(price) + symbol;
   },
 };
 

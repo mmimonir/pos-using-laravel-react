@@ -13,6 +13,7 @@ axiosInstance.interceptors.request.use(function (config) {
 
 axiosInstance.interceptors.response.use(
   function (response) {
+    console.log("From axios interceptor", response);
     return response;
   },
   function (error) {

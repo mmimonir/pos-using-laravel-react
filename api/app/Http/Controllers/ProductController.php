@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductListForBarCodeResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\ProductAttribute;
 use Illuminate\Support\Facades\DB;
 use App\Models\ProductSpecification;
+use Illuminate\Support\Facades\Schema;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductListResource;
+use App\Http\Resources\ProductDetailsResource;
+use App\Http\Resources\ProductListForBarCodeResource;
 
 class ProductController extends Controller
 {
@@ -68,7 +70,21 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $product->load([
+            'brand:id,name',
+            'photos:id,photo,product_id',
+            'category:id,name',
+            'country:id,name',
+            'sub_category:id,name',
+            'supplier:id,name,phone',
+            'created_by:id,name',
+            'updated_by:id,name',
+            'primary_photo',
+            'product_attributes',
+            'product_attributes.attributes',
+            'product_attributes.attribute_value',
+        ]);
+        return new ProductDetailsResource($product);
     }
 
     /**
@@ -99,5 +115,17 @@ class ProductController extends Controller
     {
         $products = (new Product())->getProductForBarCode($request->all());
         return ProductListForBarCodeResource::collection($products);
+    }
+
+    public function get_product_columns()
+    {
+        $columns = Schema::getColumnListing('products');
+        $formatted_columns = [];
+        foreach ($columns as $column) {
+            $formatted_columns[] = [
+                'id' => $column, 'name' => ucwords(str_replace('_', ' ', $column))
+            ];
+        }
+        return response()->json($formatted_columns);
     }
 }
