@@ -7,6 +7,7 @@ import AddCustomer from "../../partials/modals/AddCustomer";
 import ShowOrderConfirmation from "../../partials/modals/ShowOrderConfirmation";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useScanDetection from "use-scan-detection";
 
 const OrderCreate = () => {
   const [input, setInput] = useState({
@@ -43,7 +44,23 @@ const OrderCreate = () => {
   const [modalOrderConfirmationShow, setModalOrderConfirmationShow] =
     useState(false);
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [barCode, setBarCode] = useState("");
+
   const navigate = useNavigate();
+
+  useScanDetection({
+    onComplete: setBarCode,
+    minLength: 2,
+  });
+
+  useEffect(() => {
+    console.log(barCode);
+    setInput((prevState) => ({ ...prevState, search: barCode }));
+  }, [barCode]);
+
+  useEffect(() => {
+    getProducts(1);
+  }, [input.search]);
 
   const getPaymentMethods = () => {
     axiosInstance

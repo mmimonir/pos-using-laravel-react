@@ -149,8 +149,8 @@ const ProductList = () => {
                         onChange={handleInput}
                       >
                         {productColumns.map((column, index) => (
-                          <option key={index} value={column}>
-                            {column}
+                          <option key={index} value={column.id}>
+                            {column.name}
                           </option>
                         ))}
                       </select>
@@ -318,10 +318,11 @@ const ProductList = () => {
                             </td>
                             <td>
                               <div className="w-70">
-                                <button className={"btn btn-sm btn-info"}>
-                                  <i className={"fa-solid fa-eye"}></i>
-                                </button>
-
+                                <Link to={`/product/${product.id}`}>
+                                  <button className={"btn btn-sm btn-info"}>
+                                    <i className={"fa-solid fa-eye"}></i>
+                                  </button>
+                                </Link>
                                 {GlobalFunction.isAdmin() ? (
                                   <>
                                     <Link

@@ -163,4 +163,9 @@ class Product extends Model
         $products =  DB::table('products')->select($columns)->get();
         return collect($products);
     }
+
+    public function photos()
+    {
+        return $this->hasMany(ProductPhoto::class)->where('is_primary', 0);
+    }
 }

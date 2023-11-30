@@ -29,6 +29,7 @@ import OrderList from "../modules/order/OrderList";
 import OrderDetails from "../modules/order/OrderDetails";
 import BarCode from "../modules/barCode/BarCode";
 import Report from "../modules/report/Report";
+import ProductDetails from "../modules/product/ProductDetails";
 
 const ProjectRouter = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ const ProjectRouter = createBrowserRouter([
       {
         path: "/product/create",
         element: <AddProduct />,
+      },
+      {
+        path: "/product/:id",
+        element: <ProductDetails />,
       },
       {
         path: "/product",

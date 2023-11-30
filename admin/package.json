@@ -25,6 +25,7 @@
     "react-select": "^5.7.4",
     "react-to-print": "^2.14.15",
     "sweetalert2": "^11.7.12",
+    "use-scan-detection": "^0.2.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
