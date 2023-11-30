@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Loader from "../../partials/miniComponent/Loader";
 import NoDataFound from "../../partials/miniComponent/NoDataFound";
+import GlobalFunction from "../../../GlobalFunction";
 
 const ProductList = () => {
   const [input, setInput] = useState({
@@ -25,7 +26,18 @@ const ProductList = () => {
   const [totalItemsCount, setTotalItemsCount] = useState(1);
   const [startFrom, setStartFrom] = useState(1);
   const [activePage, setActivePage] = useState(1);
+  const [productColumns, setProductColumns] = useState([]);
 
+  const getProductColumns = () => {
+    axiosInstance
+      .get(`${Constants.BASE_URL}/get-product-columns`)
+      .then((res) => {
+        setProductColumns(res.data);
+      })
+      .catch((errors) => {
+        console.log(errors);
+      });
+  };
   const handleInput = (e) => {
     setInput((prevState) => ({
       ...prevState,
@@ -94,6 +106,7 @@ const ProductList = () => {
   };
   useEffect(() => {
     getProducts();
+    getProductColumns();
   }, []);
   return (
     <>
@@ -107,6 +120,7 @@ const ProductList = () => {
                 link={"/product/create"}
                 icon={"fa-add"}
                 button_text={"Add"}
+                hide={true}
               />
             </div>
             <div className="card-body">
@@ -134,11 +148,11 @@ const ProductList = () => {
                         value={input.order_by}
                         onChange={handleInput}
                       >
-                        <option value="name">Name</option>
-                        <option value="created_at">Created at</option>
-                        <option value="updated_at">Updated at</option>
-                        <option value="serial">Serial</option>
-                        <option value="status">Status</option>
+                        {productColumns.map((column, index) => (
+                          <option key={index} value={column}>
+                            {column}
+                          </option>
+                        ))}
                       </select>
                     </label>
                   </div>
@@ -307,20 +321,25 @@ const ProductList = () => {
                                 <button className={"btn btn-sm btn-info"}>
                                   <i className={"fa-solid fa-eye"}></i>
                                 </button>
-                                <Link
-                                  to={`/product/edit/${product.id}}`}
-                                  className={"btn btn-sm btn-warning my-1"}
-                                >
-                                  <i className={"fa-solid fa-edit"}></i>
-                                </Link>
-                                <button
-                                  onClick={() =>
-                                    handleProductDelete(product.id)
-                                  }
-                                  className={"btn btn-sm btn-danger"}
-                                >
-                                  <i className={"fa-solid fa-trash"}></i>
-                                </button>
+
+                                {GlobalFunction.isAdmin() ? (
+                                  <>
+                                    <Link
+                                      to={`/product/edit/${product.id}}`}
+                                      className={"btn btn-sm btn-warning my-1"}
+                                    >
+                                      <i className={"fa-solid fa-edit"}></i>
+                                    </Link>
+                                    <button
+                                      onClick={() =>
+                                        handleProductDelete(product.id)
+                                      }
+                                      className={"btn btn-sm btn-danger"}
+                                    >
+                                      <i className={"fa-solid fa-trash"}></i>
+                                    </button>
+                                  </>
+                                ) : null}
                               </div>
                             </td>
                           </tr>

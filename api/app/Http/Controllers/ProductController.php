@@ -11,6 +11,7 @@ use App\Models\ProductSpecification;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductListResource;
+use Illuminate\Support\Facades\Schema;
 
 class ProductController extends Controller
 {
@@ -99,5 +100,11 @@ class ProductController extends Controller
     {
         $products = (new Product())->getProductForBarCode($request->all());
         return ProductListForBarCodeResource::collection($products);
+    }
+
+    public function get_product_columns()
+    {
+        $columns = Schema::getColumnListing('products');
+        return response()->json($columns);
     }
 }
