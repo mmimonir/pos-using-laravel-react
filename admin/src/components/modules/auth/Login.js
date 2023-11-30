@@ -75,7 +75,7 @@ const Login = () => {
                   value={input.password}
                   onChange={handleInput}
                 />
-                {errors.email && <ErrorMsg errorMsg={errors.password[0]} />}
+                {errors?.email && <ErrorMsg errorMsg={errors?.password[0]} />}
               </label>
               <label className={"w-100 mt-4"}>
                 <p>Login As</p>
