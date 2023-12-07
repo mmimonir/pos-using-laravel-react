@@ -37,7 +37,7 @@ class AuthController extends Controller
             $user_data['photo'] = $user->photo;
             $user_data['email'] = $user->email;
             $user_data['role'] = $role;
-            $user_data['branch'] = new ShopListResource($branch);
+            $user_data['branch'] = $branch ? new ShopListResource($branch) : null;
             return response()->json($user_data);
         }
         throw ValidationException::withMessages([

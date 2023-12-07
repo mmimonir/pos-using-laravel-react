@@ -12,7 +12,7 @@ const defineBaseURL = () => {
   if (detectOS() === "Windows") {
     baseURL = "http://localhost:8000/api";
   } else if (detectOS() === "Linux") {
-    baseURL = "http://localhost:8001/api";
+    baseURL = "http://localhost:8000/api";
   } else {
     baseURL = "https://api.bajajpoint.xyz/api";
   }
