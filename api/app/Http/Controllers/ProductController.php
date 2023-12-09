@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shop;
+use App\Models\Brand;
+use App\Models\Country;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Supplier;
+use App\Models\Attribute;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use App\Models\ProductAttribute;
 use Illuminate\Support\Facades\DB;
@@ -127,5 +134,18 @@ class ProductController extends Controller
             ];
         }
         return response()->json($formatted_columns);
+    }
+
+    public function get_add_product_data()
+    {
+        return response()->json([
+            'categories' => (new Category())->getCategoryIdAndName(),
+            'brands' => (new Brand())->getBrandNameAndId(),
+            'countries' => (new Country())->getCountryNameAndId(),
+            'suppliers' => (new Supplier())->getSupplierSelectList(),
+            'attributes' => (new Attribute())->getAttributeListWithValue(),
+            'sub_categories' => (new SubCategory())->getSubCategoryIdAndName(),
+            'shops' => (new Shop())->getShopIdAndName(),
+        ]);
     }
 }

@@ -102,4 +102,9 @@ class Shop extends Model
             )
             ->findOrFail($id);
     }
+
+    public function getShopIdAndName()
+    {
+        return self::query()->select('id as value', 'name as label')->get();
+    }
 }

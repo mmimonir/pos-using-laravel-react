@@ -68,7 +68,7 @@ const Nav = () => {
       </button>
       <ul className="navbar-nav align-items-center ms-auto me-3 me-lg-4">
         <p className="text-white">
-          <strong>{branch != undefined ? branch.name + " | " : ""}</strong>
+          <strong>{branch != undefined ? branch.name + " | " : "Admin"}</strong>
           {GetLocalStorageItem("name")}
         </p>
         <li className="nav-item dropdown">

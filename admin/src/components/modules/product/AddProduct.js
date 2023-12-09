@@ -9,6 +9,7 @@ import Spinner from "../../utils/Spinner";
 import Swal from "sweetalert2";
 import CardHeader from "../../partials/miniComponent/CardHeader";
 import { click } from "@testing-library/user-event/dist/click";
+import Select from "react-select";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ const AddProduct = () => {
   const [attributeFieldId, setAttributeFieldId] = useState(1);
   const [specificationFiled, setSpecificationFiled] = useState([]);
   const [specificationFiledId, setSpecificationFiledId] = useState(1);
+  const [allSubCategories, setAllSubCategories] = useState([]);
+  const [shops, setShops] = useState([]);
 
   const handleSpecificationFieldRemove = (id) => {
     setSpecificationFiled((oldValues) => {
@@ -82,39 +85,17 @@ const AddProduct = () => {
     }));
   };
 
-  const getAttributes = () => {
+  const getAddProductData = () => {
     axiosInstance
-      .get(`${Constants.BASE_URL}/get-attribute-list`)
+      .get(`${Constants.BASE_URL}/get-add-product-data`)
       .then((res) => {
-        setAttributes(res.data);
-      });
-  };
-  const getSuppliers = () => {
-    axiosInstance.get(`${Constants.BASE_URL}/get-supplier-list`).then((res) => {
-      setSuppliers(res.data);
-    });
-  };
-  const getCountries = () => {
-    axiosInstance.get(`${Constants.BASE_URL}/get-country-list`).then((res) => {
-      setCountries(res.data);
-    });
-  };
-
-  const getCategories = () => {
-    axiosInstance.get(`${Constants.BASE_URL}/get-category-list`).then((res) => {
-      setCategories(res.data);
-    });
-  };
-  const getBrands = () => {
-    axiosInstance.get(`${Constants.BASE_URL}/get-brand-list`).then((res) => {
-      setBrands(res.data);
-    });
-  };
-  const getSubCategories = (category_id) => {
-    axiosInstance
-      .get(`${Constants.BASE_URL}/get-sub-category-list/${category_id}`)
-      .then((res) => {
-        setSubCategories(res.data);
+        setCategories(res.data.categories);
+        setBrands(res.data.brands);
+        setCountries(res.data.countries);
+        setSuppliers(res.data.suppliers);
+        setAttributes(res.data.attributes);
+        setAllSubCategories(res.data.sub_categories);
+        setShops(res.data.shops);
       });
   };
 
@@ -128,10 +109,12 @@ const AddProduct = () => {
     } else if (e.target.name === "category_id") {
       let category_id = parseInt(e.target.value);
       if (!Number.isNaN(category_id)) {
-        getSubCategories(e.target.value);
+        let sub_categories = allSubCategories.filter(
+          (item, index) => item.category_id == category_id
+        );
+        setSubCategories(sub_categories);
       }
     }
-
     setInput((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
@@ -167,24 +150,9 @@ const AddProduct = () => {
         }
       });
   };
-  const handlePhoto = (e) => {
-    let file = e.target.files[0];
-    let reader = new FileReader();
-    reader.onloadend = () => {
-      setInput((prevState) => ({
-        ...prevState,
-        photo: reader.result,
-      }));
-    };
-    reader.readAsDataURL(file);
-  };
 
   useEffect(() => {
-    getCategories();
-    getBrands();
-    getCountries();
-    getSuppliers();
-    getAttributes();
+    getAddProductData();
   }, []);
 
   useEffect(() => {
@@ -197,6 +165,17 @@ const AddProduct = () => {
       specifications: specification_input,
     }));
   }, [specification_input]);
+
+  const handleMultipleSelect = (e) => {
+    let value = [];
+    for (const item of e) {
+      value.push(item.value);
+    }
+    setInput((prevState) => ({
+      ...prevState,
+      shop_ids: value,
+    }));
+  };
 
   return (
     <>
@@ -214,6 +193,23 @@ const AddProduct = () => {
             </div>
             <div className="card-body">
               <div className="row">
+                <div className="col-md-12">
+                  <label className={"w-100 mt-4"}>
+                    <p>Select Shop</p>
+                    <Select
+                      onChange={handleMultipleSelect}
+                      name={"shop_id[]"}
+                      isMulti
+                      options={shops}
+                      placeholder={"Select Shop"}
+                    />
+                    <p className={"login-error-msg"}>
+                      <small>
+                        {errors.shop_id != undefined ? errors.shop_id[0] : null}
+                      </small>
+                    </p>
+                  </label>
+                </div>
                 <div className="col-md-6">
                   <label className={"w-100 mt-4"}>
                     <p>Name</p>

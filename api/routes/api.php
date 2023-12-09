@@ -77,6 +77,7 @@ Route::group(['middleware' => ['auth:admin,sales_manager']], function () {
     Route::get("get-sub-category-list/{category_id}", [SubCategoryController::class, 'get_sub_category_list']);
     Route::get("get-product-list-for-bar-code", [ProductController::class, 'get_product_list_for_bar_code']);
     Route::get("get-reports", [ReportController::class, 'index']);
+    Route::get("get-add-product-data", [ProductController::class, 'get_add_product_data']);
 });
 
 Route::group(['middleware' => ['auth:sales_manager']], function () {
